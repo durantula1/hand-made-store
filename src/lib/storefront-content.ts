@@ -25,24 +25,6 @@ export const values = [
   },
 ];
 
-export const testimonials = [
-  {
-    quote: "Опаковката и изделията са толкова точни и красиви. Най-доброто нещо, което съм поръчвала онлайн.",
-    name: "Изабела Хартман",
-    role: "Моден редактор",
-  },
-  {
-    quote: "Предметът изглежда издръжлив. Мисля, че ще остане с мен години. Благодаря ви.",
-    name: "Мая Томпсън",
-    role: "Дизайнер на опаковки",
-  },
-  {
-    quote: "Не бих могла да съм по-доволна. Новото ми любимо студио за подаръци.",
-    name: "Сузан Гибсън",
-    role: "Стилист",
-  },
-];
-
 export const faqs = [
   {
     q: "Какви начини на плащане приемате?",
@@ -58,24 +40,32 @@ export const faqs = [
   },
 ];
 
-export const promoTiles = [
+export const countdownCopy = {
+  title: "Отстъпки за кратко време",
+  text: "Времето свършва. Разгледай ръчно изработените предмети преди броячът да изчезне.",
+};
+
+export const trendsSlides = [
   {
+    label: "Тенденции",
     title: "Тиха елегантност, направена бавно",
     text: "Колекция от бижута, създадени да се носят години, не един сезон.",
     href: "/shop?category=Бижута",
-    image: "/lifestyle/collage-jewelry.png",
+    image: "/lifestyle/trend-jewelry.png",
   },
   {
+    label: "Тенденции",
     title: "Предмети за масата и перваза",
     text: "Керамика с ръчна глазура за бавни закуски и единични стръкове.",
     href: "/shop?category=Керамика",
-    image: "/lifestyle/promo-ceramics.png",
+    image: "/lifestyle/trend-ceramics.png",
   },
   {
+    label: "Тенденции",
     title: "Текстил с градински бод",
     text: "Малки ленени неща за пътуване, подарък и ежедневен джоб.",
     href: "/shop?category=Текстил",
-    image: "/lifestyle/promo-bags.png",
+    image: "/lifestyle/trend-textiles.png",
   },
 ];
 
@@ -98,12 +88,11 @@ export const articles = [
 ];
 
 export const instagramPosts = [
-  "/products/pearl-earrings.png",
-  "/lifestyle/collage-hands.png",
-  "/products/ceramic-vase.png",
-  "/lifestyle/ig-botanical.png",
-  "/products/soy-candle.png",
-  "/lifestyle/collage-crystal.png",
+  { src: "/lifestyle/ig-table.png", speed: -75, width: 120, height: 168 },
+  { src: "/lifestyle/ig-ring.png", speed: -50, width: 120, height: 180 },
+  { src: "/lifestyle/ig-necklaces.png", speed: -150, width: 132, height: 198 },
+  { src: "/lifestyle/collage-crystal.png", speed: -100, width: 108, height: 200 },
+  { src: "/lifestyle/collage-jewelry.png", speed: -85, width: 176, height: 118 },
 ];
 
 export const footerColumns = [

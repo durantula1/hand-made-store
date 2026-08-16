@@ -2,19 +2,17 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import {
   articles,
   collectionLinks,
-  countdownTarget,
   faqs,
-  promoTiles,
-  testimonials,
   values,
 } from "@/lib/storefront-content";
 import { products } from "@/lib/products";
+import { CountdownBand } from "@/components/countdown-band";
 import { ProductGrid } from "@/components/product-grid";
 import { StoreIcon } from "@/components/store-icon";
+import { TrendsSlideshow } from "@/components/trends-slideshow";
 
 export function Storefront() {
   const featuredProducts = products.filter((product) => product.featured).slice(0, 3);
@@ -41,7 +39,15 @@ export function Storefront() {
           <Image src="/lifestyle/collage-jewelry.png" alt="Бижута върху керамична чиния" fill sizes="30vw" className="object-cover" />
         </Link>
         <Link className="collage-frame collage-center" href="/shop">
-          <Image src="/lifestyle/collage-hands.png" alt="Ръце с тънка златна верижка" fill sizes="38vw" className="object-cover" priority />
+          <Image
+            src="/lifestyle/collage-hands.png"
+            alt="Ръце с тънка златна верижка"
+            fill
+            sizes="38vw"
+            className="object-cover"
+            priority
+            loading="eager"
+          />
         </Link>
         <Link className="collage-frame collage-right" href="/shop?category=Керамика">
           <Image src="/lifestyle/collage-crystal.png" alt="Кристал и сухи цветове върху лен" fill sizes="30vw" className="object-cover" />
@@ -82,19 +88,6 @@ export function Storefront() {
         </div>
       </section>
 
-      <section className="section-pad pt-0">
-        <div className="testimonials" aria-label="Отзиви">
-          {testimonials.map((item) => (
-            <figure className="testimonial" key={item.name}>
-              <q>{item.quote}</q>
-              <cite>
-                {item.name}, {item.role}
-              </cite>
-            </figure>
-          ))}
-        </div>
-      </section>
-
       <section className="section-pad about-section" id="story">
         <div className="about-image">
           <Image src="/lifestyle/about-studio.png" alt="Студиото на Luma" fill sizes="50vw" className="object-cover" />
@@ -125,17 +118,7 @@ export function Storefront() {
         </div>
       </section>
 
-      <section className="section-pad promo-grid" aria-label="Колекции в кадър">
-        {promoTiles.map((tile) => (
-          <Link className="promo-tile" href={tile.href} key={tile.title}>
-            <span className="promo-tile-image">
-              <Image src={tile.image} alt="" fill sizes="33vw" className="object-cover" />
-            </span>
-            <h3>{tile.title}</h3>
-            <p>{tile.text}</p>
-          </Link>
-        ))}
-      </section>
+      <TrendsSlideshow />
 
       <section className="section-pad journal-section" id="journal">
         <div className="section-heading">
@@ -154,42 +137,5 @@ export function Storefront() {
         </div>
       </section>
     </>
-  );
-}
-
-function CountdownBand() {
-  const [now, setNow] = useState(() => Date.now());
-
-  useEffect(() => {
-    const timer = window.setInterval(() => setNow(Date.now()), 1000);
-    return () => window.clearInterval(timer);
-  }, []);
-
-  const remaining = Math.max(0, new Date(countdownTarget).getTime() - now);
-  const days = Math.floor(remaining / 86400000);
-  const hours = Math.floor((remaining % 86400000) / 3600000);
-  const minutes = Math.floor((remaining % 3600000) / 60000);
-  const seconds = Math.floor((remaining % 60000) / 1000);
-
-  return (
-    <section className="countdown-band">
-      <div className="section-heading center">
-        <p className="product-vendor">Ограничено време</p>
-        <h2>Отстъпки, докато броячът изчезне</h2>
-      </div>
-      <div className="countdown-clock" aria-label="Оставащо време">
-        {[
-          [days, "дни"],
-          [hours, "часове"],
-          [minutes, "минути"],
-          [seconds, "секунди"],
-        ].map(([value, label]) => (
-          <div key={String(label)}>
-            <b>{String(value).padStart(2, "0")}</b>
-            <span>{label}</span>
-          </div>
-        ))}
-      </div>
-    </section>
   );
 }

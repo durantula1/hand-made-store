@@ -6,14 +6,14 @@ const display = Cormorant_Garamond({
   variable: "--font-display",
   subsets: ["latin", "cyrillic"],
   style: ["normal", "italic"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500"],
   display: "swap",
 });
 
 const sans = Source_Sans_3({
   variable: "--font-body",
   subsets: ["latin", "cyrillic"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "600"],
   display: "swap",
 });
 
@@ -38,6 +38,7 @@ export default function RootLayout({
   return (
     <html
       lang="bg"
+      data-scroll-behavior="smooth"
       className={`${display.variable} ${sans.variable} ${script.variable} antialiased`}
       suppressHydrationWarning
     >

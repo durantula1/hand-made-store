@@ -12,7 +12,7 @@ export function ProductCard({ product }: { product: Product }) {
   return (
     <article className="product-card">
       <div className="product-image">
-        <Link href={`/products/${product.slug}`}>
+        <Link className="relative block h-full" href={`/products/${product.slug}`}>
           <Image
             src={product.image}
             alt={product.alt}
