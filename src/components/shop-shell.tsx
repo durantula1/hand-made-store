@@ -15,7 +15,7 @@ export function ShopShell({
     <CartProvider>
       <div className="min-h-screen bg-outer px-3 py-3 text-ink sm:px-5 sm:py-5">
         <a className="skip-link" href="#main">
-          Skip to main content
+          Към основното съдържание
         </a>
         <div className="app-shell">
           <SiteHeader />

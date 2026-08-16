@@ -10,30 +10,30 @@ export function CartDrawer() {
   return (
     <>
       <button
-        aria-label="Close cart overlay"
+        aria-label="Затвори кошницата"
         className={`cart-scrim ${isOpen ? "cart-scrim-open" : ""}`}
         onClick={closeCart}
         type="button"
       />
       <aside
-        aria-label="Shopping cart"
+        aria-label="Кошница за пазаруване"
         className={`cart-drawer ${isOpen ? "cart-drawer-open" : ""}`}
       >
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="eyebrow">Basket</p>
-            <h2 className="font-serif text-3xl text-ink">Little studio finds</h2>
+            <p className="eyebrow">Кошница</p>
+            <h2 className="font-serif text-3xl text-ink">Малки находки от студиото</h2>
           </div>
-          <button className="icon-button" onClick={closeCart} type="button" aria-label="Close cart">
+          <button className="icon-button" onClick={closeCart} type="button" aria-label="Затвори кошницата">
             x
           </button>
         </div>
 
         {lines.length === 0 ? (
           <div className="mt-12 rounded-[28px] border border-ink/10 bg-ivory/80 p-7 text-center">
-            <p className="font-serif text-2xl text-ink">Your basket is resting.</p>
+            <p className="font-serif text-2xl text-ink">Кошницата ти си почива.</p>
             <p className="mt-3 text-sm leading-6 text-ink/62">
-              Add a handmade piece and it will appear here with a mock subtotal.
+              Добави ръчно изработено изделие и то ще се появи тук с примерна междинна сума.
             </p>
           </div>
         ) : (
@@ -63,7 +63,7 @@ export function CartDrawer() {
                           className="qty-button"
                           onClick={() => decrease(line.product.slug)}
                           type="button"
-                          aria-label={`Decrease ${line.product.name}`}
+                          aria-label={`Намали количеството на ${line.product.name}`}
                         >
                           -
                         </button>
@@ -74,7 +74,7 @@ export function CartDrawer() {
                           className="qty-button"
                           onClick={() => increase(line.product.slug)}
                           type="button"
-                          aria-label={`Increase ${line.product.name}`}
+                          aria-label={`Увеличи количеството на ${line.product.name}`}
                         >
                           +
                         </button>
@@ -87,14 +87,14 @@ export function CartDrawer() {
 
             <div className="mt-auto border-t border-ink/10 pt-6">
               <div className="flex items-center justify-between text-ink">
-                <span className="text-sm uppercase tracking-[0.2em] text-ink/52">Subtotal</span>
+                <span className="text-sm uppercase tracking-[0.2em] text-ink/52">Междинна сума</span>
                 <strong className="font-serif text-3xl">{formatPrice(subtotal)}</strong>
               </div>
               <button className="primary-button mt-6 w-full" type="button">
-                Preview checkout
+                Преглед на поръчката
               </button>
               <p className="mt-4 text-center text-xs leading-5 text-ink/48">
-                Checkout is mocked for this proof of concept.
+                Плащането е примерна стъпка в този POC.
               </p>
             </div>
           </div>

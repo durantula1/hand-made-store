@@ -33,7 +33,7 @@ export function AddToCartButton({
       }}
       type="button"
     >
-      {added ? "Added to Basket" : "Add to Basket"}
+      {added ? "Добавено в кошницата" : "Добави в кошницата"}
     </button>
   );
 }

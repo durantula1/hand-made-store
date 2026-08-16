@@ -6,26 +6,26 @@ import { ProductGrid } from "@/components/product-grid";
 import { products } from "@/lib/products";
 
 export function Storefront() {
-  const [heroOne, heroTwo, heroThree] = products;
+  const [heroOne, heroTwo, heroThree, heroFour, heroFive] = products;
   const featuredProducts = products.filter((product) => product.featured).slice(0, 3);
 
   return (
     <>
       <section className="hero-section">
         <div className="hero-copy">
-          <p className="eyebrow">Spring studio collection</p>
-          <h1>Handmade pieces with a little sunlight left in them.</h1>
+          <p className="eyebrow">Пролетна колекция от студиото</p>
+          <h1>Ръчно изработени малки неща с малко слънце в тях.</h1>
           <p className="hero-text">
-            Luma curates small-batch jewelry, ceramics, scent, and textiles for slow
-            mornings, thoughtful gifts, and rooms that feel quietly alive.
+            Luma събира бижута, керамика, аромати и текстил в малки серии за бавни
+            сутрини, смислени подаръци и домове с тих живот.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link className="primary-button" href="/shop">Shop the edit</Link>
-            <a className="secondary-button" href="#story">Meet the studio</a>
+            <Link className="primary-button" href="/shop">Разгледай колекцията</Link>
+            <a className="secondary-button" href="#story">Запознай се със студиото</a>
           </div>
         </div>
 
-        <div className="hero-collage" aria-label="Featured handmade products">
+        <div className="hero-collage" aria-label="Подбрани ръчно изработени изделия">
           <Link className="hero-card hero-card-left" href={`/products/${heroOne.slug}`}>
             <Image
               src={heroOne.image}
@@ -56,21 +56,57 @@ export function Storefront() {
               className="object-cover"
             />
           </Link>
+          <Link className="hero-card hero-card-tiny hero-card-tiny-top-left" href={`/products/${heroFour.slug}`}>
+            <Image
+              src={heroFour.image}
+              alt={heroFour.alt}
+              fill
+              sizes="(max-width: 767px) 56px, 88px"
+              className="object-cover"
+            />
+          </Link>
+          <Link className="hero-card hero-card-tiny hero-card-tiny-bottom-left" href={`/products/${heroFive.slug}`}>
+            <Image
+              src={heroFive.image}
+              alt={heroFive.alt}
+              fill
+              sizes="(max-width: 767px) 62px, 96px"
+              className="object-cover"
+            />
+          </Link>
+          <Link className="hero-card hero-card-tiny hero-card-tiny-top-right" href={`/products/${heroFive.slug}`}>
+            <Image
+              src={heroFive.image}
+              alt="Детайл от ботаническите сапуни"
+              fill
+              sizes="(max-width: 767px) 54px, 82px"
+              className="object-cover"
+            />
+          </Link>
+          <Link className="hero-card hero-card-tiny hero-card-tiny-bottom-right" href={`/products/${heroThree.slug}`}>
+            <Image
+              src={heroThree.image}
+              alt="Детайл от ръчно налятата соева свещ"
+              fill
+              sizes="(max-width: 767px) 58px, 90px"
+              className="object-cover object-[54%_52%]"
+            />
+          </Link>
         </div>
       </section>
 
       <section className="section-pad" id="shop">
         <div className="section-heading">
-          <p className="eyebrow">Featured pieces</p>
-          <h2>A small preview from the studio shelf.</h2>
+          <p className="eyebrow">Подбрани изделия</p>
+          <h2>Малък поглед към рафта на студиото.</h2>
           <p>
-            Start with three customer favorites, then open the full shop for filters,
-            sorting, and the complete handmade edit.
+            Започни с три любими изделия, после отвори целия магазин с филтри,
+            сортиране и пълната ръчно изработена колекция.
           </p>
         </div>
 
         <div className="preview-action">
-          <Link className="secondary-button" href="/shop">View all products</Link>
+          <Link className="secondary-button" href="/shop">Виж всички изделия</Link>
         </div>
 
         <ProductGrid products={featuredProducts} />
@@ -78,57 +114,57 @@ export function Storefront() {
 
       <section className="story-band" id="story">
         <div>
-          <p className="eyebrow">From our studio to your door</p>
-          <h2>Gift-ready pieces, chosen with a human hand.</h2>
+          <p className="eyebrow">От студиото до твоята врата</p>
+          <h2>Готови за подарък изделия, избрани с човешка ръка.</h2>
         </div>
         <div className="story-content">
           <p>
-            Every Luma piece is selected for texture, usefulness, and the small
-            irregular details that make handmade objects worth keeping.
+            Всяко изделие на Luma е избрано заради текстурата, полезността и малките
+            несъвършенства, които си заслужава да останат.
           </p>
-          <div className="promise-list" aria-label="Store promises">
-            <span>Small-Batch Finds</span>
-            <span>Gift-Ready Wrapping</span>
-            <span>Packed With Care</span>
+          <div className="promise-list" aria-label="Обещания на магазина">
+            <span>Малки серии</span>
+            <span>Опаковка за подарък</span>
+            <span>Опаковано с грижа</span>
           </div>
           <div className="story-actions">
-            <Link className="primary-button" href="/shop">Shop Gifts</Link>
-            <a className="secondary-button" href="#journal">Read Our Story</a>
+            <Link className="primary-button" href="/shop">Избери подарък</Link>
+            <a className="secondary-button" href="#journal">Полезна информация</a>
           </div>
         </div>
       </section>
 
       <section className="journal-strip" id="journal">
         <div>
-          <span>Gift</span>
-          <h3>Gift Wrapping</h3>
+          <span>Подарък</span>
+          <h3>Подаръчна опаковка</h3>
           <p>
-            Add a soft wrap note at checkout. We use tissue, ribbon, and a small
-            maker card when the item is ready to send.
+            Добави лично послание. Използваме хартия, панделка и малка картичка от
+            студиото, когато изделието е готово за изпращане.
           </p>
         </div>
         <div>
-          <span>Ship</span>
-          <h3>Shipping</h3>
+          <span>Доставка</span>
+          <h3>Изпращане</h3>
           <p>
-            Studio orders are packed within 1-2 business days, with tracking shared
-            as soon as the parcel leaves the bench.
+            Поръчките се опаковат до 1–2 работни дни, а номер за проследяване
+            изпращаме щом пратката тръгне.
           </p>
         </div>
         <div>
-          <span>Care</span>
-          <h3>Returns</h3>
+          <span>Грижа</span>
+          <h3>Връщане</h3>
           <p>
-            If something is not quite right, returns are accepted within 14 days in
-            original condition and packaging.
+            Ако нещо не е съвсем както трябва, приемаме връщане до 14 дни в
+            оригиналния му вид и опаковка.
           </p>
         </div>
         <div>
-          <span>Note</span>
-          <h3>Maker Notes</h3>
+          <span>Бележка</span>
+          <h3>Бележки от автора</h3>
           <p>
-            Product pages include material notes and care details so every piece
-            arrives with context, not just a price tag.
+            Страниците на изделията включват материали и грижа, така че всяко нещо
+            идва с контекст, не само с цена.
           </p>
         </div>
       </section>

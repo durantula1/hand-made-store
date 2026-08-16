@@ -20,22 +20,22 @@ function HomeFooter() {
           <small>handmade</small>
         </p>
         <p className="mt-4 max-w-md text-sm leading-6 text-ink/58">
-          Thoughtful handmade gifts, softly styled and packed with care from our
-          spring studio edit.
+          Смислени ръчно изработени подаръци, внимателно подбрани и опаковани с грижа
+          от пролетната ни колекция.
         </p>
       </div>
       <form className="newsletter">
-        <label htmlFor="email">Studio letters</label>
+        <label htmlFor="email">Писма от студиото</label>
         <div>
           <input
             autoComplete="email"
             id="email"
             name="email"
-            placeholder="you@example.com…"
+            placeholder="ti@primer.bg"
             spellCheck={false}
             type="email"
           />
-          <button type="button">Join</button>
+          <button type="button">Абонирай се</button>
         </div>
       </form>
     </footer>

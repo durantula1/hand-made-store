@@ -10,14 +10,14 @@ const display = Bodoni_Moda({
 
 const sans = Manrope({
   variable: "--font-body",
-  subsets: ["latin"],
+  subsets: ["latin", "cyrillic"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Luma Handmade | Spring studio objects",
+  title: "Luma Handmade | Ръчно изработени находки",
   description:
-    "A modern pastel handmade boutique POC with generated product photography and a mock shopping basket.",
+    "Модерен пастелен POC магазин за ръчно изработени изделия с продуктова фотография и кошница.",
 };
 
 export default function RootLayout({
@@ -27,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="bg"
       className={`${display.variable} ${sans.variable} antialiased`}
       suppressHydrationWarning
     >

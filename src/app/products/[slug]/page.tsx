@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: ProductPageProps) {
 
   if (!product) {
     return {
-      title: "Product not found | Luma Handmade",
+      title: "Изделието не е намерено | Luma Handmade",
     };
   }
 
@@ -43,7 +43,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     <ShopShell>
       <main className="detail-page" id="main">
         <Link className="back-link" href="/#shop">
-          Back to shop
+          Обратно към магазина
         </Link>
 
         <section className="detail-grid">

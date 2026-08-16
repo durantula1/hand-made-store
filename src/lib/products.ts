@@ -8,72 +8,90 @@ export type Product = {
   tint: string;
   description: string;
   details: string[];
+  materials: string[];
+  colors: string[];
+  features: string[];
   featured?: boolean;
 };
 
 export const products: Product[] = [
   {
     slug: "pearl-earrings",
-    name: "Pearl Arc Earrings",
-    category: "Jewelry",
+    name: "Перлени обеци Дъга",
+    category: "Бижута",
     price: 64,
     image: "/products/pearl-earrings.png",
-    alt: "Handmade pearl drop earrings with gold details on a small ceramic dish",
+    alt: "Ръчно изработени висящи перлени обеци със златни детайли върху малка керамична чинийка",
     tint: "blush",
     featured: true,
     description:
-      "Delicate freshwater pearls shaped into a light-catching pair for quiet dinners, linen dresses, and warm-weather ceremonies.",
-    details: ["Freshwater pearls", "Gold-filled hooks", "Made in small batches"],
+      "Фини сладководни перли, оформени в лек чифт за тихи вечери, ленени рокли и летни поводи.",
+    details: ["Сладководни перли", "Кукички със златно покритие", "Изработени в малки серии"],
+    materials: ["Перла", "Златно покритие"],
+    colors: ["Перлено", "Златно"],
+    features: ["Готово за подарък", "Малка серия"],
   },
   {
     slug: "ceramic-vase",
-    name: "Meadow Glaze Vase",
-    category: "Ceramics",
+    name: "Ваза с ливадна глазура",
+    category: "Керамика",
     price: 78,
     image: "/products/ceramic-vase.png",
-    alt: "Small handmade ceramic bud vase with meadow flowers in soft daylight",
+    alt: "Малка ръчно изработена керамична ваза с ливадни цветя на мека дневна светлина",
     tint: "sage",
     featured: true,
     description:
-      "A softly irregular bud vase with a hand-dipped glaze, made for single stems, windowsills, and breakfast tables.",
-    details: ["Hand-thrown stoneware", "Food-safe glaze", "Each piece varies subtly"],
+      "Леко несиметрична ваза с ръчно потопена глазура за единични стръкове, первази и бавни закуски.",
+    details: ["Ръчно оформена каменинa", "Глазура, безопасна за храна", "Всяко изделие е леко различно"],
+    materials: ["Каменина"],
+    colors: ["Салвия", "Крем"],
+    features: ["Единствена бройка", "Малка серия"],
   },
   {
     slug: "soy-candle",
-    name: "Sunday Linen Candle",
-    category: "Home Scent",
+    name: "Свещ Неделен лен",
+    category: "Аромати за дома",
     price: 42,
     image: "/products/soy-candle.png",
-    alt: "Hand-poured soy candle in a small ceramic cup on pastel linen",
+    alt: "Ръчно налята соева свещ в малка керамична чашка върху пастелен лен",
     tint: "lavender",
     featured: true,
     description:
-      "A hand-poured soy candle with notes of clean cotton, lemon leaf, and soft lavender, poured into a reusable ceramic cup.",
-    details: ["Soy wax blend", "Reusable ceramic vessel", "Approximately 38 hour burn"],
+      "Ръчно налята соева свещ с чист памук, лимонов лист и мека лавандула в керамична чашка за повторна употреба.",
+    details: ["Соева восъчна смес", "Керамичен съд за повторна употреба", "Приблизително 38 часа горене"],
+    materials: ["Соев восък", "Каменина"],
+    colors: ["Лавандула", "Крем"],
+    features: ["Готово за подарък", "Готово за изпращане"],
   },
   {
     slug: "linen-pouch",
-    name: "Garden Stitch Pouch",
-    category: "Textiles",
+    name: "Ленено калъфче Градински бод",
+    category: "Текстил",
     price: 36,
     image: "/products/linen-pouch.png",
-    alt: "Woven linen pouch with a drawstring and embroidered floral detail",
+    alt: "Тъкано ленено калъфче с връзка и бродиран флорален детайл",
     tint: "blue",
     description:
-      "A small woven linen pouch finished with a floral stitch, sized for jewelry, travel keepsakes, or a tiny gift.",
-    details: ["Washed linen blend", "Cotton drawstring", "Hand embroidered detail"],
+      "Малко тъкано ленено калъфче с флорален бод за бижута, пътни дреболии или малък подарък.",
+    details: ["Омекотена ленена смес", "Памучна връзка", "Ръчно бродиран детайл"],
+    materials: ["Лен", "Памук"],
+    colors: ["Синьо", "Крем"],
+    features: ["Готово за подарък", "Малка серия"],
   },
   {
     slug: "botanical-soaps",
-    name: "Botanical Soap Trio",
-    category: "Self Care",
+    name: "Трио ботанически сапуни",
+    category: "Грижа за себе си",
     price: 29,
     image: "/products/botanical-soaps.png",
-    alt: "Three handmade botanical soaps with pressed flower petals",
+    alt: "Три ръчно изработени ботанически сапуна с пресовани цветни листенца",
     tint: "butter",
     description:
-      "Three creamy botanical soaps pressed with soft floral textures and wrapped for a fresh, thoughtful gift.",
-    details: ["Plant oils", "Light botanical scent", "Wrapped in recyclable paper"],
+      "Три кремообразни ботанически сапуна с нежни флорални текстури, опаковани като свеж и внимателен подарък.",
+    details: ["Растителни масла", "Лек ботанически аромат", "Рециклируема хартиена опаковка"],
+    materials: ["Растителни масла"],
+    colors: ["Маслено жълто", "Ботаническо"],
+    features: ["Готово за подарък", "Готово за изпращане"],
   },
 ];
 
@@ -84,7 +102,7 @@ export function getProduct(slug: string) {
 }
 
 export function formatPrice(price: number) {
-  return new Intl.NumberFormat("en", {
+  return new Intl.NumberFormat("bg-BG", {
     style: "currency",
     currency: "EUR",
     maximumFractionDigits: 0,

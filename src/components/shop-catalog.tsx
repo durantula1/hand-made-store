@@ -1,162 +1,199 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { CatalogFacet } from "@/components/catalog-facet";
+import { CatalogFilterOptions } from "@/components/catalog-filter-options";
+import { MobileFilterDrawer } from "@/components/mobile-filter-drawer";
 import { ProductGrid } from "@/components/product-grid";
-import { categories, products } from "@/lib/products";
+import {
+  type CatalogFacet as CatalogFacetType,
+  type CatalogFilters,
+  createCatalogUrl,
+  createEmptyFilters,
+  filterProducts,
+  getActiveFilterCount,
+  getActiveFilters,
+  getCatalogFacetOptions,
+  getSortLabel,
+  readFiltersFromUrl,
+  removeActiveFilter,
+} from "@/lib/catalog-filters";
+import { products } from "@/lib/products";
 
-type PriceFilter = "All" | "Under €40" | "€40-€60" | "Over €60";
-type SortFilter = "Featured" | "Price Low" | "Price High";
-
-const priceFilters: PriceFilter[] = ["All", "Under €40", "€40-€60", "Over €60"];
-const sortFilters: SortFilter[] = ["Featured", "Price Low", "Price High"];
+const desktopFacets: CatalogFacetType[] = ["category", "price", "material", "color", "feature"];
 
 export function ShopCatalog() {
-  const [query, setQuery] = useState("");
-  const [category, setCategory] = useState("All");
-  const [price, setPrice] = useState<PriceFilter>("All");
-  const [sort, setSort] = useState<SortFilter>("Featured");
+  const [filters, setFilters] = useState<CatalogFilters>(createEmptyFilters);
+  const isUrlReady = useRef(false);
+  const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
+  const [draftFilters, setDraftFilters] = useState<CatalogFilters>(createEmptyFilters);
+  const options = useMemo(() => getCatalogFacetOptions(products), []);
+  const filteredProducts = useMemo(() => filterProducts(products, filters), [filters]);
+  const draftResultCount = useMemo(() => filterProducts(products, draftFilters).length, [draftFilters]);
+  const activeFilters = useMemo(() => getActiveFilters(filters), [filters]);
+  const activeFilterCount = getActiveFilterCount(filters);
 
-  const filteredProducts = useMemo(() => {
-    const normalizedQuery = query.trim().toLowerCase();
+  useEffect(() => {
+    const syncFromUrl = () => {
+      isUrlReady.current = true;
+      setFilters(readFiltersFromUrl(new URLSearchParams(window.location.search)));
+    };
 
-    return products
-      .filter((product) => {
-        const matchesQuery =
-          normalizedQuery.length === 0 ||
-          `${product.name} ${product.category} ${product.description}`
-            .toLowerCase()
-            .includes(normalizedQuery);
-        const matchesCategory = category === "All" || product.category === category;
-        const matchesPrice =
-          price === "All" ||
-          (price === "Under €40" && product.price < 40) ||
-          (price === "€40-€60" && product.price >= 40 && product.price <= 60) ||
-          (price === "Over €60" && product.price > 60);
+    queueMicrotask(syncFromUrl);
+    window.addEventListener("popstate", syncFromUrl);
+    return () => window.removeEventListener("popstate", syncFromUrl);
+  }, []);
 
-        return matchesQuery && matchesCategory && matchesPrice;
-      })
-      .sort((a, b) => {
-        if (sort === "Price Low") {
-          return a.price - b.price;
-        }
+  useEffect(() => {
+    if (!isUrlReady.current) return;
 
-        if (sort === "Price High") {
-          return b.price - a.price;
-        }
+    const nextUrl = createCatalogUrl(filters);
+    if (`${window.location.pathname}${window.location.search}` !== nextUrl) {
+      window.history.replaceState(null, "", nextUrl);
+    }
+  }, [filters]);
 
-        return Number(b.featured ?? false) - Number(a.featured ?? false);
-      });
-  }, [category, price, query, sort]);
-
-  const resetFilters = () => {
-    setQuery("");
-    setCategory("All");
-    setPrice("All");
-    setSort("Featured");
+  const openMobileFilters = () => {
+    setDraftFilters(filters);
+    setIsMobileDrawerOpen(true);
   };
 
+  const closeMobileFilters = () => {
+    setDraftFilters(filters);
+    setIsMobileDrawerOpen(false);
+  };
+
+  const applyMobileFilters = () => {
+    setFilters(draftFilters);
+    setIsMobileDrawerOpen(false);
+  };
+
+  const resetFilters = () => setFilters(createEmptyFilters());
+
   return (
-    <section className="shop-catalog" aria-label="Shop catalog">
-      <div className="shop-filter-panel">
-        <div className="catalog-toolbar">
-          <div className="shop-search">
-            <label htmlFor="catalog-search">Search the edit</label>
+    <section className="shop-catalog" aria-label="Каталог на магазина">
+      <div className="catalog-controls">
+        <div className="catalog-summary">
+          <div className="catalog-count" aria-live="polite">
+            <strong>{filteredProducts.length}</strong>
+            <span>{filteredProducts.length === 1 ? "изделие в колекцията" : "изделия в колекцията"}</span>
+          </div>
+
+          <label className="catalog-search-inline" htmlFor="catalog-search">
+            <span>Търси в колекцията</span>
             <input
               autoComplete="off"
               id="catalog-search"
               name="catalog-search"
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="ceramic, candle, jewelry..."
+              onChange={(event) => setFilters((current) => ({ ...current, query: event.target.value }))}
+              placeholder="Търси изделия"
               spellCheck={false}
               type="search"
-              value={query}
+              value={filters.query}
             />
-          </div>
+          </label>
 
-          <div className="catalog-count" aria-live="polite">
-            <span>{filteredProducts.length}</span>
-            {filteredProducts.length === 1 ? " piece" : " pieces"}
+          <div className="catalog-desktop-sort">
+            <CatalogFacet isActive={filters.sort !== "featured"} label="Подреди" selectedLabel={getSortLabel(filters.sort)}>
+              <CatalogFilterOptions facet="sort" filters={filters} onChange={setFilters} options={options} />
+            </CatalogFacet>
           </div>
         </div>
 
-        <div className="filter-groups" aria-label="Catalog filters" role="group">
-          <div className="filter-row filter-row-wide">
-            <FilterGroup
-              label="Category"
-              options={categories}
-              value={category}
-              onChange={setCategory}
-            />
-          </div>
-          <div className="filter-row">
-            <FilterGroup
-              label="Price"
-              options={priceFilters}
-              value={price}
-              onChange={(value) => setPrice(value as PriceFilter)}
-            />
-            <FilterGroup
-              label="Sort"
-              options={sortFilters}
-              value={sort}
-              onChange={(value) => setSort(value as SortFilter)}
-            />
-          </div>
+        <div aria-label="Филтри за каталога" className="catalog-filter-rail">
+          {desktopFacets.map((facet) => {
+            const selectedCount =
+              facet === "category"
+                ? filters.categories.length
+                : facet === "price"
+                  ? Number(filters.price !== "all")
+                  : facet === "material"
+                    ? filters.materials.length
+                    : facet === "color"
+                      ? filters.colors.length
+                      : filters.features.length;
+            const label =
+              facet === "feature"
+                ? "Детайли"
+                : facet === "color"
+                  ? "Цвят"
+                  : facet === "category"
+                    ? "Категория"
+                    : facet === "price"
+                      ? "Цена"
+                      : "Материал";
+
+            return (
+              <CatalogFacet key={facet} label={label} selectedCount={selectedCount}>
+                <CatalogFilterOptions facet={facet} filters={filters} onChange={setFilters} options={options} />
+              </CatalogFacet>
+            );
+          })}
         </div>
+
+        <div className="mobile-catalog-actions">
+          <button
+            className={`mobile-catalog-action ${activeFilterCount ? "mobile-catalog-action-active" : ""}`}
+            onClick={openMobileFilters}
+            type="button"
+          >
+            <span>Филтри</span>
+            {activeFilterCount ? <b>{activeFilterCount}</b> : null}
+          </button>
+          <button className="mobile-catalog-action" onClick={openMobileFilters} type="button">
+            <span>Подреди</span>
+            <small>{getSortLabel(filters.sort)}</small>
+          </button>
+        </div>
+
+        {activeFilters.length ? (
+          <div className="active-filter-row" aria-label="Приложени филтри">
+            <span className="active-filter-label">Приложени</span>
+            <div className="active-filter-list">
+              {activeFilters.map((filter) => (
+                <button
+                  className="active-filter-chip"
+                  key={filter.id}
+                  onClick={() => setFilters((current) => removeActiveFilter(current, filter.id))}
+                  type="button"
+                >
+                  {filter.label}
+                  <span aria-hidden="true">×</span>
+                </button>
+              ))}
+            </div>
+            <button className="clear-filters" onClick={resetFilters} type="button">
+              Изчисти всички
+            </button>
+          </div>
+        ) : null}
       </div>
 
       <div className="catalog-results">
-        {filteredProducts.length > 0 ? (
+        {filteredProducts.length ? (
           <ProductGrid products={filteredProducts} />
         ) : (
           <div className="empty-catalog">
-            <p className="eyebrow">No pieces match this filter</p>
-            <h2>Try a softer search.</h2>
-            <p>
-              The current studio edit is intentionally small. Reset the filters to see
-              every handmade piece again.
-            </p>
-            <button
-              className="primary-button mt-6"
-              onClick={resetFilters}
-              type="button"
-            >
-              Reset Filters
+            <p className="eyebrow">Все още няма резултати</p>
+            <h2>Опитай друга комбинация.</h2>
+            <p>Изчисти филтрите, за да се върнеш към цялата колекция.</p>
+            <button className="primary-button mt-6" onClick={resetFilters} type="button">
+              Изчисти филтрите
             </button>
           </div>
         )}
       </div>
-    </section>
-  );
-}
 
-function FilterGroup({
-  label,
-  options,
-  value,
-  onChange,
-}: {
-  label: string;
-  options: readonly string[];
-  value: string;
-  onChange: (value: string) => void;
-}) {
-  return (
-    <div className="filter-group">
-      <p>{label}</p>
-      <div>
-        {options.map((option) => (
-          <button
-            aria-pressed={value === option}
-            className={`filter-chip ${value === option ? "filter-chip-active" : ""}`}
-            key={option}
-            onClick={() => onChange(option)}
-            type="button"
-          >
-            {option}
-          </button>
-        ))}
-      </div>
-    </div>
+      <MobileFilterDrawer
+        filters={draftFilters}
+        onApply={applyMobileFilters}
+        onChange={setDraftFilters}
+        onClear={() => setDraftFilters(createEmptyFilters())}
+        onClose={closeMobileFilters}
+        open={isMobileDrawerOpen}
+        options={options}
+        resultCount={draftResultCount}
+      />
+    </section>
   );
 }

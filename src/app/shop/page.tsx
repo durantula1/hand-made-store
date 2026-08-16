@@ -3,9 +3,9 @@ import { ShopCatalog } from "@/components/shop-catalog";
 import { ShopShell } from "@/components/shop-shell";
 
 export const metadata: Metadata = {
-  title: "Shop the Handmade Edit | Luma Handmade",
+  title: "Магазин | Luma Handmade",
   description:
-    "Browse Luma Handmade jewelry, ceramics, home scent, textiles, and self-care gifts with soft boutique filters.",
+    "Разгледай бижута, керамика, аромати за дома, текстил и подаръци за грижа за себе си от Luma Handmade.",
 };
 
 export default function ShopPage() {
@@ -15,18 +15,17 @@ export default function ShopPage() {
         <section className="shop-hero">
           <div className="shop-hero-copy">
             <div className="shop-hero-text">
-              <p className="eyebrow">The catalog</p>
-              <h1>Shop the Handmade Edit</h1>
+              <p className="eyebrow">Каталог</p>
+              <h1>Ръчно изработената колекция</h1>
               <p>
-                A small spring collection of gift-ready jewelry, ceramics, scent,
-                textiles, and self-care pieces, styled for slow mornings and thoughtful
-                giving.
+                Малка пролетна колекция от бижута, керамика, аромати, текстил и изделия
+                за грижа, готови за подарък и подбрани за бавни сутрини.
               </p>
             </div>
-            <div className="shop-trust-row" aria-label="Shop benefits">
-              <span>Gift-ready</span>
-              <span>Packed in 1-2 days</span>
-              <span>Small-batch objects</span>
+            <div className="shop-trust-row" aria-label="Предимства на магазина">
+              <span>Готово за подарък</span>
+              <span>Опаковано до 1–2 дни</span>
+              <span>Изделия в малки серии</span>
             </div>
           </div>
         </section>
