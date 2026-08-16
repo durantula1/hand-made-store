@@ -10,7 +10,7 @@ import {
   getActiveFilterCount,
 } from "@/lib/catalog-filters";
 
-const facets: CatalogFacet[] = ["sort", "category", "price", "material", "color", "feature"];
+const facets: CatalogFacet[] = ["sort", "availability", "category", "price", "material", "color", "feature"];
 
 export function MobileFilterDrawer({
   open,
@@ -58,7 +58,7 @@ export function MobileFilterDrawer({
       <div className="mobile-filter-dialog-inner">
         <header className="mobile-filter-header">
           <div>
-            <p className="eyebrow">Прецизирай избора</p>
+            <p className="product-vendor">Прецизирай избора</p>
             <h2 id="mobile-filter-title">Филтри</h2>
           </div>
           <button aria-label="Затвори филтрите" className="mobile-filter-close" onClick={() => dialogRef.current?.close()} type="button">

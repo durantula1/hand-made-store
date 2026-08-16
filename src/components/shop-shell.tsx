@@ -1,29 +1,31 @@
 "use client";
 
+import { announcement } from "@/lib/storefront-content";
 import { CartDrawer } from "@/components/cart-drawer";
 import { CartProvider } from "@/components/cart-provider";
+import { QuickViewProvider } from "@/components/quick-view-provider";
 import { SiteHeader } from "@/components/site-header";
+import { StoreFooter } from "@/components/store-footer";
+import { StoreIcon } from "@/components/store-icon";
 
-export function ShopShell({
-  children,
-  footer,
-}: {
-  children: React.ReactNode;
-  footer?: React.ReactNode;
-}) {
+export function ShopShell({ children }: { children: React.ReactNode }) {
   return (
     <CartProvider>
-      <div className="min-h-screen bg-outer px-3 py-3 text-ink sm:px-5 sm:py-5">
-        <a className="skip-link" href="#main">
-          Към основното съдържание
-        </a>
-        <div className="app-shell">
+      <QuickViewProvider>
+        <div className="page-shell">
+          <a className="skip-link" href="#main">
+            Към основното съдържание
+          </a>
+          <div className="announcement-bar">
+            <StoreIcon name="gift" size={14} />
+            <span>{announcement}</span>
+          </div>
           <SiteHeader />
           {children}
-          {footer}
+          <StoreFooter />
         </div>
         <CartDrawer />
-      </div>
+      </QuickViewProvider>
     </CartProvider>
   );
 }

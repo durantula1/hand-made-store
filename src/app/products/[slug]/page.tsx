@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { AddToCartButton } from "@/components/add-to-cart-button";
+import { ProductDetail } from "@/components/product-detail";
+import { ProductGrid } from "@/components/product-grid";
 import { ShopShell } from "@/components/shop-shell";
-import { formatPrice, getProduct, products } from "@/lib/products";
+import { getProduct, getRelatedProducts, products } from "@/lib/products";
 
 type ProductPageProps = {
   params: Promise<{
@@ -39,42 +40,39 @@ export default async function ProductPage({ params }: ProductPageProps) {
     notFound();
   }
 
+  const related = getRelatedProducts(slug);
+
   return (
     <ShopShell>
       <main className="detail-page" id="main">
-        <Link className="back-link" href="/#shop">
-          Обратно към магазина
-        </Link>
+        <nav className="breadcrumbs" aria-label="Път">
+          <Link href="/">Начало</Link>
+          <span aria-hidden="true">→</span>
+          <Link href="/shop">Магазин</Link>
+          <span aria-hidden="true">→</span>
+          <Link href={`/shop?category=${encodeURIComponent(product.category)}`}>{product.category}</Link>
+          <span aria-hidden="true">→</span>
+          <span>{product.name}</span>
+        </nav>
 
-        <section className="detail-grid">
-          <div className={`detail-image detail-${product.tint}`}>
-            <Image
-              src={product.image}
-              alt={product.alt}
-              fill
-              priority
-              sizes="(max-width: 900px) 100vw, 48vw"
-              className="object-cover"
-            />
-          </div>
+        <ProductDetail product={product} />
 
-          <div className="detail-copy">
-            <p className="eyebrow">{product.category}</p>
-            <h1>{product.name}</h1>
-            <p className="price-line">{formatPrice(product.price)}</p>
-            <p className="mt-6 max-w-xl text-lg leading-8 text-ink/68">
-              {product.description}
+        <section className="pdp-banner">
+          <Image src="/lifestyle/pdp-banner.png" alt="" fill sizes="100vw" className="object-cover" />
+          <div className="pdp-banner-copy">
+            <h2>Невидимите рискове на красотата</h2>
+            <p>
+              Новата колекция събира съвременен силует, етични материали и тиха простота. Налична онлайн и в студиото.
             </p>
-            <ul className="mt-8 space-y-3">
-              {product.details.map((detail) => (
-                <li className="detail-point" key={detail}>
-                  <span />
-                  {detail}
-                </li>
-              ))}
-            </ul>
-            <AddToCartButton product={product} className="mt-9 min-w-56" />
           </div>
+        </section>
+
+        <section className="section-pad px-0">
+          <div className="section-heading">
+            <p className="product-vendor">Може да харесаш</p>
+            <h2>Още от студиото</h2>
+          </div>
+          <ProductGrid products={related} />
         </section>
       </main>
     </ShopShell>

@@ -1,33 +1,35 @@
 # Luma Handmade Design Direction
 
-Color strategy: full pastel palette with warm ivory neutrals and deep ink text. Keep the surface light and sunlit, using color as soft atmosphere rather than loud blocks.
+Color strategy: restrained. Tinted ivory neutrals with one earthy brown carrying announcement, primary actions, and wordmark. Color never becomes the subject; photography and type do.
+
+Scene: a shopper standing in a bright studio shop at late morning, linen underfoot, north light on ceramics. The interface should feel like paper and plaster, not a device chrome.
 
 Core colors:
-- Warm ivory: `#FFF9F1`
-- Blush pink: `#F6C8C8`
-- Butter yellow: `#F7E8A4`
-- Soft sage: `#BFD8BD`
-- Powder blue: `#BBDCED`
-- Lavender mist: `#D8C7F2`
-- Deep ink: `#202336`
+- Warm ivory: `#F7F4F0`
+- Paper: `#F1EBE4`
+- Charcoal brown: `#3C3530`
+- Muted clay: `#6B645C`
+- Earth brown: `#4A433F`
+- Sold-out clay: `#A65A48`
+- Hairline: `oklch(0.42 0.02 55 / 0.16)`
 
 Typography:
-- Use a distinctive editorial serif for hero headlines and product headings.
-- Use a clean modern sans-serif for navigation, product metadata, buttons, and cart UI.
-- Avoid generic default font choices when possible.
+- Script wordmark for Luma only (Italianno). Latin, never used for body copy.
+- Cormorant Garamond for headlines, collection names, and accordion titles. Italic is a structural accent, not decoration.
+- Source Sans 3 for navigation, prices, buttons, and body. Cyrillic required.
 
 Layout:
-- Rounded app-like page shell over a softly tinted outer background.
-- Centered editorial hero with asymmetrical floating product images.
-- Product cards should have stable image ratios, soft borders, and clear hierarchy.
-- Use full-width bands and unframed sections where possible. Avoid nested cards.
+- Full-bleed ivory canvas. No rounded app shell, no outer dark frame.
+- Centered logo header. Hamburger left, utilities right.
+- Hero is type first, then a staggered image collage.
+- Product cards are unframed photographs with vendor, title, and price.
+- Collection pages split a serif title against a short description, then an overlapping banner.
 
 Imagery:
-- Generate realistic product photography for handmade objects.
-- Use soft natural daylight, pastel spring/summer backgrounds, elegant boutique styling, and clean negative space.
-- Keep images cohesive enough to look from the same brand shoot.
+- Generated photography in one shoot language: warm ivory, natural daylight, earth pigments, linen, ceramic, metal.
+- Keep images cohesive enough to look from the same brand day.
 
 Motion:
-- Use subtle reveal, lift, scale, and drawer transitions.
-- Respect `prefers-reduced-motion`.
-- Avoid bouncy or elastic effects.
+- Soft opacity/transform reveals. Hover lift of 4px maximum.
+- Ease-out quart. Respect `prefers-reduced-motion`.
+- No bounce, no elastic, no layout animation.

@@ -2,6 +2,7 @@ import {
   type CatalogFacet,
   type CatalogFacetOptions,
   type CatalogFilters,
+  availabilityOptions,
   facetLabels,
   priceOptions,
   sortOptions,
@@ -28,6 +29,25 @@ export function CatalogFilterOptions({
               checked={filters.price === option.value}
               name="catalog-price"
               onChange={() => onChange({ ...filters, price: option.value })}
+              type="radio"
+            />
+            <span>{option.label}</span>
+          </label>
+        ))}
+      </fieldset>
+    );
+  }
+
+  if (facet === "availability") {
+    return (
+      <fieldset className="facet-option-list">
+        <legend className="sr-only">{facetLabels.availability}</legend>
+        {availabilityOptions.map((option) => (
+          <label className="filter-option" key={option.value}>
+            <input
+              checked={filters.availability === option.value}
+              name="catalog-availability"
+              onChange={() => onChange({ ...filters, availability: option.value })}
               type="radio"
             />
             <span>{option.label}</span>

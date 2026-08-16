@@ -2,18 +2,20 @@ import type { Product } from "@/lib/products";
 
 export type PriceFilter = "all" | "under-40" | "40-60" | "over-60";
 export type SortFilter = "featured" | "price-asc" | "price-desc" | "name";
+export type AvailabilityFilter = "all" | "in-stock" | "out-of-stock";
 
 export type CatalogFilters = {
   query: string;
   categories: string[];
   price: PriceFilter;
+  availability: AvailabilityFilter;
   materials: string[];
   colors: string[];
   features: string[];
   sort: SortFilter;
 };
 
-export type CatalogFacet = "category" | "price" | "material" | "color" | "feature" | "sort";
+export type CatalogFacet = "category" | "price" | "availability" | "material" | "color" | "feature" | "sort";
 
 export type CatalogFacetOptions = {
   categories: string[];
@@ -36,9 +38,16 @@ export const sortOptions: { label: string; value: SortFilter }[] = [
   { label: "Име: А–Я", value: "name" },
 ];
 
+export const availabilityOptions: { label: string; value: AvailabilityFilter }[] = [
+  { label: "Всички", value: "all" },
+  { label: "В наличност", value: "in-stock" },
+  { label: "Изчерпани", value: "out-of-stock" },
+];
+
 export const facetLabels: Record<CatalogFacet, string> = {
   category: "Категория",
   price: "Цена",
+  availability: "Наличност",
   material: "Материал",
   color: "Цвят",
   feature: "Детайли",
@@ -50,6 +59,7 @@ export function createEmptyFilters(): CatalogFilters {
     query: "",
     categories: [],
     price: "all",
+    availability: "all",
     materials: [],
     colors: [],
     features: [],
@@ -89,6 +99,7 @@ export function filterProducts(products: Product[], filters: CatalogFilters) {
         matchesQuery &&
         matchesAny(filters.categories, [product.category]) &&
         matchesPrice(filters.price, product.price) &&
+        matchesAvailability(filters.availability, product.inStock !== false) &&
         matchesAny(filters.materials, product.materials) &&
         matchesAny(filters.colors, product.colors) &&
         matchesAny(filters.features, product.features)
@@ -108,6 +119,7 @@ export function getActiveFilterCount(filters: CatalogFilters) {
     Number(Boolean(filters.query.trim())) +
     filters.categories.length +
     Number(filters.price !== "all") +
+    Number(filters.availability !== "all") +
     filters.materials.length +
     filters.colors.length +
     filters.features.length
@@ -118,11 +130,15 @@ export type ActiveFilter = { id: string; label: string };
 
 export function getActiveFilters(filters: CatalogFilters): ActiveFilter[] {
   const priceLabel = priceOptions.find((option) => option.value === filters.price)?.label;
+  const availabilityLabel = availabilityOptions.find((option) => option.value === filters.availability)?.label;
 
   return [
     ...(filters.query.trim() ? [{ id: "query", label: `Търсене: ${filters.query.trim()}` }] : []),
     ...filters.categories.map((value) => ({ id: `category:${value}`, label: value })),
     ...(filters.price !== "all" && priceLabel ? [{ id: "price", label: priceLabel }] : []),
+    ...(filters.availability !== "all" && availabilityLabel
+      ? [{ id: "availability", label: availabilityLabel }]
+      : []),
     ...filters.materials.map((value) => ({ id: `material:${value}`, label: value })),
     ...filters.colors.map((value) => ({ id: `color:${value}`, label: value })),
     ...filters.features.map((value) => ({ id: `feature:${value}`, label: value })),
@@ -132,6 +148,7 @@ export function getActiveFilters(filters: CatalogFilters): ActiveFilter[] {
 export function removeActiveFilter(filters: CatalogFilters, id: string): CatalogFilters {
   if (id === "query") return { ...filters, query: "" };
   if (id === "price") return { ...filters, price: "all" };
+  if (id === "availability") return { ...filters, availability: "all" };
 
   const [facet, value] = id.split(":");
   if (!value) return filters;
@@ -147,12 +164,14 @@ export function removeActiveFilter(filters: CatalogFilters, id: string): Catalog
 export function readFiltersFromUrl(search: URLSearchParams): CatalogFilters {
   const price = search.get("price");
   const sort = search.get("sort");
+  const availability = search.get("availability");
 
   return {
     ...createEmptyFilters(),
     query: search.get("q") ?? "",
     categories: readList(search.get("category")),
     price: isPriceFilter(price) ? price : "all",
+    availability: isAvailabilityFilter(availability) ? availability : "all",
     materials: readList(search.get("material")),
     colors: readList(search.get("color")),
     features: readList(search.get("feature")),
@@ -166,6 +185,7 @@ export function createCatalogUrl(filters: CatalogFilters) {
   if (filters.query.trim()) search.set("q", filters.query.trim());
   if (filters.categories.length) search.set("category", filters.categories.join(","));
   if (filters.price !== "all") search.set("price", filters.price);
+  if (filters.availability !== "all") search.set("availability", filters.availability);
   if (filters.materials.length) search.set("material", filters.materials.join(","));
   if (filters.colors.length) search.set("color", filters.colors.join(","));
   if (filters.features.length) search.set("feature", filters.features.join(","));
@@ -181,6 +201,12 @@ export function getSortLabel(sort: SortFilter) {
 
 function matchesAny(selected: string[], productValues: string[]) {
   return selected.length === 0 || selected.some((value) => productValues.includes(value));
+}
+
+function matchesAvailability(filter: AvailabilityFilter, inStock: boolean) {
+  if (filter === "in-stock") return inStock;
+  if (filter === "out-of-stock") return !inStock;
+  return true;
 }
 
 function matchesPrice(filter: PriceFilter, price: number) {
@@ -200,6 +226,10 @@ function readList(value: string | null) {
 
 function isPriceFilter(value: string | null): value is PriceFilter {
   return priceOptions.some((option) => option.value === value);
+}
+
+function isAvailabilityFilter(value: string | null): value is AvailabilityFilter {
+  return availabilityOptions.some((option) => option.value === value);
 }
 
 function isSortFilter(value: string | null): value is SortFilter {

@@ -6,24 +6,25 @@ Register: brand.
 
 Product purpose: present a premium handmade boutique with mocked products, generated product imagery, and a believable shopping path. The POC should make the brand feel real enough to evaluate visual direction, product storytelling, and ecommerce interaction patterns before adding a backend.
 
-Tone: airy, tactile, sunlit, careful, intimate. The brand should feel like a spring studio shelf, linen tissue paper, glazed ceramics, pearl details, botanical soaps, and small-batch objects photographed in natural light.
+Tone: quiet, tactile, earthy, careful, intimate. The brand should feel like a linen-wrapped object on a studio shelf, warm plaster, glazed ceramics, pearl details, and small-batch pieces photographed in north-window light.
 
 Visual principles:
 - Make product imagery the first signal.
-- Use pastel spring and summer colors with restraint and rhythm.
-- Pair artisan warmth with modern boutique polish.
-- Prefer generous whitespace, soft shapes, subtle shadows, and precise typography.
-- Keep ecommerce actions clear, but let the page feel editorial and crafted.
+- Use warm ivory and earthy brown with restraint.
+- Pair artisan warmth with editorial boutique polish.
+- Prefer generous whitespace, thin rules, serif italics, and precise typography.
+- Keep ecommerce actions clear, but let the page feel like a magazine, not a grid template.
 
 Anti-references:
 - Generic grid-only ecommerce templates.
 - Heavy dark dashboards or tech SaaS visual language.
 - Purple-blue AI gradients.
-- Beige-only craft market styling.
+- Candy pastel craft-market styling.
 - Loud maximalism that hides the handmade products.
+- Rounded app-shell cards floating on a dark outer frame.
 
 Success criteria:
-- The first viewport clearly reads as modern, elegant, pastel, spring/summer, and handmade.
+- The first viewport reads as soft-minimalist, earthy, and handmade.
 - Product images feel cohesive and premium.
-- The mock cart works smoothly without pretending to be a real checkout.
+- The mock cart, search, filters, and quick view work without pretending to be a real checkout.
 - The app builds cleanly and stays ready for a future real data layer.

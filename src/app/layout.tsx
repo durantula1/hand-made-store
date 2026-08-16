@@ -1,23 +1,33 @@
 import type { Metadata } from "next";
-import { Bodoni_Moda, Manrope } from "next/font/google";
+import { Cormorant_Garamond, Italianno, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 
-const display = Bodoni_Moda({
+const display = Cormorant_Garamond({
   variable: "--font-display",
-  subsets: ["latin"],
+  subsets: ["latin", "cyrillic"],
+  style: ["normal", "italic"],
+  weight: ["400", "500", "600"],
   display: "swap",
 });
 
-const sans = Manrope({
+const sans = Source_Sans_3({
   variable: "--font-body",
   subsets: ["latin", "cyrillic"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
+const script = Italianno({
+  variable: "--font-script",
+  subsets: ["latin"],
+  weight: "400",
   display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "Luma Handmade | Ръчно изработени находки",
   description:
-    "Модерен пастелен POC магазин за ръчно изработени изделия с продуктова фотография и кошница.",
+    "Мек минималистичен магазин за ръчно изработени бижута, керамика и малки предмети за дома.",
 };
 
 export default function RootLayout({
@@ -28,7 +38,7 @@ export default function RootLayout({
   return (
     <html
       lang="bg"
-      className={`${display.variable} ${sans.variable} antialiased`}
+      className={`${display.variable} ${sans.variable} ${script.variable} antialiased`}
       suppressHydrationWarning
     >
       <body>{children}</body>

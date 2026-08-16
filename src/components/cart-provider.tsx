@@ -13,7 +13,7 @@ type CartContextValue = {
   isOpen: boolean;
   totalItems: number;
   subtotal: number;
-  addItem: (product: Product) => void;
+  addItem: (product: Product, quantity?: number) => void;
   increase: (slug: string) => void;
   decrease: (slug: string) => void;
   openCart: () => void;
@@ -27,19 +27,19 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const value = useMemo<CartContextValue>(() => {
-    const addItem = (product: Product) => {
+    const addItem = (product: Product, quantity = 1) => {
       setLines((current) => {
         const existing = current.find((line) => line.product.slug === product.slug);
 
         if (existing) {
           return current.map((line) =>
             line.product.slug === product.slug
-              ? { ...line, quantity: line.quantity + 1 }
+              ? { ...line, quantity: line.quantity + quantity }
               : line,
           );
         }
 
-        return [...current, { product, quantity: 1 }];
+        return [...current, { product, quantity }];
       });
       setIsOpen(true);
     };

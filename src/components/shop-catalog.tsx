@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { CatalogFacet } from "@/components/catalog-facet";
 import { CatalogFilterOptions } from "@/components/catalog-filter-options";
@@ -18,9 +19,9 @@ import {
   readFiltersFromUrl,
   removeActiveFilter,
 } from "@/lib/catalog-filters";
-import { products } from "@/lib/products";
+import { categories, products } from "@/lib/products";
 
-const desktopFacets: CatalogFacetType[] = ["category", "price", "material", "color", "feature"];
+const desktopFacets: CatalogFacetType[] = ["availability", "price", "sort"];
 
 export function ShopCatalog() {
   const [filters, setFilters] = useState<CatalogFilters>(createEmptyFilters);
@@ -32,6 +33,7 @@ export function ShopCatalog() {
   const draftResultCount = useMemo(() => filterProducts(products, draftFilters).length, [draftFilters]);
   const activeFilters = useMemo(() => getActiveFilters(filters), [filters]);
   const activeFilterCount = getActiveFilterCount(filters);
+  const selectedCategory = filters.categories.length === 1 ? filters.categories[0] : null;
 
   useEffect(() => {
     const syncFromUrl = () => {
@@ -70,100 +72,118 @@ export function ShopCatalog() {
 
   const resetFilters = () => setFilters(createEmptyFilters());
 
+  const selectCategory = (category: string | null) => {
+    setFilters((current) => ({
+      ...current,
+      categories: category ? [category] : [],
+    }));
+  };
+
   return (
     <section className="shop-catalog" aria-label="Каталог на магазина">
-      <div className="catalog-controls">
-        <div className="catalog-summary">
-          <div className="catalog-count" aria-live="polite">
-            <strong>{filteredProducts.length}</strong>
-            <span>{filteredProducts.length === 1 ? "изделие в колекцията" : "изделия в колекцията"}</span>
-          </div>
+      <div className="collection-intro">
+        <h1>
+          {selectedCategory ?? "Ръчна"}
+          <em>колекция</em>
+        </h1>
+        <p>
+          Новата ни колекция събира съвременни силуети, етично подбрани материали и тиха красота. Налична онлайн и
+          в студиото.
+        </p>
+      </div>
 
-          <label className="catalog-search-inline" htmlFor="catalog-search">
-            <span>Търси в колекцията</span>
-            <input
-              autoComplete="off"
-              id="catalog-search"
-              name="catalog-search"
-              onChange={(event) => setFilters((current) => ({ ...current, query: event.target.value }))}
-              placeholder="Търси изделия"
-              spellCheck={false}
-              type="search"
-              value={filters.query}
-            />
-          </label>
-
-          <div className="catalog-desktop-sort">
-            <CatalogFacet isActive={filters.sort !== "featured"} label="Подреди" selectedLabel={getSortLabel(filters.sort)}>
-              <CatalogFilterOptions facet="sort" filters={filters} onChange={setFilters} options={options} />
-            </CatalogFacet>
-          </div>
+      <div className="collection-banner">
+        <div className="collection-banner-main">
+          <Image
+            src="/lifestyle/collection-banner.png"
+            alt="Портрет от колекцията на Luma"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
         </div>
+        <div className="collection-insets">
+          <span>
+            <Image src="/lifestyle/collection-inset-portrait.png" alt="" fill sizes="140px" className="object-cover" />
+          </span>
+          <span>
+            <Image src="/lifestyle/collection-inset-necklace.png" alt="" fill sizes="140px" className="object-cover" />
+          </span>
+        </div>
+      </div>
 
-        <div aria-label="Филтри за каталога" className="catalog-filter-rail">
-          {desktopFacets.map((facet) => {
-            const selectedCount =
-              facet === "category"
-                ? filters.categories.length
-                : facet === "price"
-                  ? Number(filters.price !== "all")
-                  : facet === "material"
-                    ? filters.materials.length
-                    : facet === "color"
-                      ? filters.colors.length
-                      : filters.features.length;
-            const label =
-              facet === "feature"
-                ? "Детайли"
-                : facet === "color"
-                  ? "Цвят"
-                  : facet === "category"
-                    ? "Категория"
-                    : facet === "price"
-                      ? "Цена"
-                      : "Материал";
+      <div className="category-tabs" role="tablist" aria-label="Категории">
+        <button className={selectedCategory ? "" : "is-active"} onClick={() => selectCategory(null)} type="button">
+          Всички
+        </button>
+        {categories.map((category) => (
+          <span key={category} className="contents">
+            <span className="fleuron" aria-hidden="true">
+              ✦
+            </span>
+            <button
+              className={selectedCategory === category ? "is-active" : ""}
+              onClick={() => selectCategory(category)}
+              type="button"
+            >
+              {category}
+            </button>
+          </span>
+        ))}
+      </div>
 
-            return (
-              <CatalogFacet key={facet} label={label} selectedCount={selectedCount}>
-                <CatalogFilterOptions facet={facet} filters={filters} onChange={setFilters} options={options} />
-              </CatalogFacet>
-            );
-          })}
+      <div className="catalog-controls">
+        <div className="filter-bar" aria-label="Филтри за каталога">
+          <div className="catalog-count" aria-live="polite">
+            {filteredProducts.length} изделия
+          </div>
+          {desktopFacets.map((facet) => (
+            <CatalogFacet
+              key={facet}
+              isActive={
+                facet === "sort"
+                  ? filters.sort !== "featured"
+                  : facet === "price"
+                    ? filters.price !== "all"
+                    : filters.availability !== "all"
+              }
+              label={facet === "sort" ? getSortLabel(filters.sort) : facet === "price" ? "Цена" : "Наличност"}
+              selectedLabel={facet === "sort" ? getSortLabel(filters.sort) : undefined}
+            >
+              <CatalogFilterOptions facet={facet} filters={filters} onChange={setFilters} options={options} />
+            </CatalogFacet>
+          ))}
         </div>
 
         <div className="mobile-catalog-actions">
           <button
-            className={`mobile-catalog-action ${activeFilterCount ? "mobile-catalog-action-active" : ""}`}
+            className="mobile-catalog-action"
             onClick={openMobileFilters}
             type="button"
           >
-            <span>Филтри</span>
-            {activeFilterCount ? <b>{activeFilterCount}</b> : null}
+            <span>Филтри{activeFilterCount ? ` (${activeFilterCount})` : ""}</span>
           </button>
           <button className="mobile-catalog-action" onClick={openMobileFilters} type="button">
-            <span>Подреди</span>
-            <small>{getSortLabel(filters.sort)}</small>
+            <span>{getSortLabel(filters.sort)}</span>
           </button>
         </div>
 
         {activeFilters.length ? (
           <div className="active-filter-row" aria-label="Приложени филтри">
-            <span className="active-filter-label">Приложени</span>
-            <div className="active-filter-list">
-              {activeFilters.map((filter) => (
-                <button
-                  className="active-filter-chip"
-                  key={filter.id}
-                  onClick={() => setFilters((current) => removeActiveFilter(current, filter.id))}
-                  type="button"
-                >
-                  {filter.label}
-                  <span aria-hidden="true">×</span>
-                </button>
-              ))}
-            </div>
+            {activeFilters.map((filter) => (
+              <button
+                className="active-filter-chip"
+                key={filter.id}
+                onClick={() => setFilters((current) => removeActiveFilter(current, filter.id))}
+                type="button"
+              >
+                {filter.label}
+                <span aria-hidden="true"> ×</span>
+              </button>
+            ))}
             <button className="clear-filters" onClick={resetFilters} type="button">
-              Изчисти всички
+              Изчисти
             </button>
           </div>
         ) : null}
@@ -174,8 +194,7 @@ export function ShopCatalog() {
           <ProductGrid products={filteredProducts} />
         ) : (
           <div className="empty-catalog">
-            <p className="eyebrow">Все още няма резултати</p>
-            <h2>Опитай друга комбинация.</h2>
+            <h2>Няма съвпадения.</h2>
             <p>Изчисти филтрите, за да се върнеш към цялата колекция.</p>
             <button className="primary-button mt-6" onClick={resetFilters} type="button">
               Изчисти филтрите
