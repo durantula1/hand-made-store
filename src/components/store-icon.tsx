@@ -2,6 +2,7 @@ type StoreIconName =
   | "account"
   | "arrow"
   | "bag"
+  | "chevron"
   | "close"
   | "filter"
   | "gift"
@@ -67,6 +68,12 @@ export function StoreIcon({ name, size = 22 }: StoreIconProps) {
       return (
         <svg {...common}>
           <path d="M5 12h14M14 7l5 5-5 5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.4" />
+        </svg>
+      );
+    case "chevron":
+      return (
+        <svg {...common}>
+          <path d="m7 10 5 5 5-5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.4" />
         </svg>
       );
     case "gift":

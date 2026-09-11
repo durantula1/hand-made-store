@@ -67,7 +67,7 @@ function MenuAccordionItem({
           type="button"
         >
           <span className="sr-only">{isOpen ? "Свий" : "Разгъни"} {item.label}</span>
-          <StoreIcon name={isOpen ? "minus" : "plus"} size={16} />
+          <StoreIcon name="chevron" size={18} />
         </button>
       </div>
 

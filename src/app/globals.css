@@ -357,25 +357,32 @@ input:focus-visible {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 2rem;
-  height: 2rem;
+  width: 2.1rem;
+  height: 2.1rem;
   margin: 0;
   padding: 0;
-  border: 1px solid var(--line);
+  border: 0;
   background: transparent;
   color: var(--muted);
   cursor: pointer;
-  transition:
-    color 220ms var(--ease),
-    border-color 220ms var(--ease),
-    background 220ms var(--ease);
+  transition: color 220ms var(--ease);
 }
 
-.menu-accordion-toggle:hover,
+.menu-accordion-toggle svg {
+  transition: transform 320ms var(--ease);
+  transform-origin: center;
+}
+
+.menu-accordion-toggle:hover {
+  color: var(--ink);
+}
+
 .menu-accordion-item.is-open .menu-accordion-toggle {
   color: var(--ink);
-  border-color: color-mix(in oklab, var(--ink) 28%, transparent);
-  background: color-mix(in oklab, var(--paper) 70%, transparent);
+}
+
+.menu-accordion-item.is-open .menu-accordion-toggle svg {
+  transform: rotate(180deg);
 }
 
 .menu-accordion-panel {
