@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { collectionLinks } from "@/lib/storefront-content";
+import { navMenuItems, type NavMenuItem } from "@/lib/storefront-content";
 import { formatPrice, products } from "@/lib/products";
 import { StoreIcon } from "./store-icon";
 
@@ -38,6 +38,61 @@ type MenuDialogProps = DialogProps & {
   onOpenSearch: () => void;
 };
 
+function MenuAccordionItem({
+  item,
+  isOpen,
+  onToggle,
+  onNavigate,
+}: {
+  item: NavMenuItem;
+  isOpen: boolean;
+  onToggle: () => void;
+  onNavigate: () => void;
+}) {
+  const panelId = `menu-panel-${item.label}`;
+  const triggerId = `menu-trigger-${item.label}`;
+
+  return (
+    <div className={`menu-accordion-item${isOpen ? " is-open" : ""}${item.italic ? " is-italic" : ""}`}>
+      <div className="menu-accordion-row">
+        <Link className="menu-accordion-title" href={item.href} onClick={onNavigate}>
+          {item.label}
+        </Link>
+        <button
+          aria-controls={panelId}
+          aria-expanded={isOpen}
+          className="menu-accordion-toggle"
+          id={triggerId}
+          onClick={onToggle}
+          type="button"
+        >
+          <span className="sr-only">{isOpen ? "Свий" : "Разгъни"} {item.label}</span>
+          <StoreIcon name={isOpen ? "minus" : "plus"} size={16} />
+        </button>
+      </div>
+
+      <div
+        aria-labelledby={triggerId}
+        className="menu-accordion-panel"
+        id={panelId}
+        role="region"
+      >
+        <div className="menu-accordion-panel-inner">
+          <ul className="menu-submenu">
+            {item.children.map((child) => (
+              <li key={`${item.label}-${child.label}`}>
+                <Link href={child.href} onClick={onNavigate}>
+                  {child.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function MobileMenuDialog({
   isOpen,
   onClose,
@@ -45,27 +100,31 @@ export function MobileMenuDialog({
   onOpenSearch,
 }: MenuDialogProps) {
   const { ref } = useNativeDialog({ isOpen, onClose });
+  const [openLabel, setOpenLabel] = useState<string | null>(null);
+
+  const closeMenu = () => {
+    setOpenLabel(null);
+    onClose();
+  };
 
   return (
-    <dialog className="store-dialog menu-dialog" ref={ref} onCancel={onClose}>
+    <dialog className="store-dialog menu-dialog" ref={ref} onCancel={closeMenu}>
       <div className="menu-dialog-inner">
         <div className="dialog-heading">
           <p className="product-vendor">Меню</p>
-          <DialogCloseButton onClick={onClose} />
+          <DialogCloseButton onClick={closeMenu} />
         </div>
 
         <nav className="menu-nav" aria-label="Навигация">
-          {collectionLinks.map((link) => (
-            <Link href={link.href} key={link.href} onClick={onClose}>
-              {link.label}
-            </Link>
+          {navMenuItems.map((item) => (
+            <MenuAccordionItem
+              key={item.label}
+              item={item}
+              isOpen={openLabel === item.label}
+              onNavigate={closeMenu}
+              onToggle={() => setOpenLabel((current) => (current === item.label ? null : item.label))}
+            />
           ))}
-          <Link href="/shop" onClick={onClose}>
-            Магазин
-          </Link>
-          <Link href="/#story" onClick={onClose}>
-            Студиото
-          </Link>
         </nav>
 
         <div className="menu-promo">

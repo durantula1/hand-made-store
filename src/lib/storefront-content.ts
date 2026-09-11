@@ -1,11 +1,88 @@
 export const announcement = "Безплатна доставка над 150 €";
 
-export const collectionLinks = [
-  { label: "Намаление", href: "/shop?feature=Готово+за+подарък", italic: false },
-  { label: "Бижута", href: "/shop?category=Бижута", italic: true },
-  { label: "Текстил", href: "/shop?category=Текстил", italic: false },
-  { label: "Керамика", href: "/shop?category=Керамика", italic: true },
+export type NavSubLink = {
+  label: string;
+  href: string;
+};
+
+export type NavMenuItem = {
+  label: string;
+  href: string;
+  italic?: boolean;
+  children: NavSubLink[];
+};
+
+export const navMenuItems: NavMenuItem[] = [
+  {
+    label: "Намаление",
+    href: "/shop?feature=Готово+за+подарък",
+    children: [
+      { label: "Готово за подарък", href: "/shop?feature=Готово+за+подарък" },
+      { label: "Ограничена серия", href: "/shop?feature=Ограничена+серия" },
+      { label: "Единствена бройка", href: "/shop?feature=Единствена+бройка" },
+      { label: "Под 40 €", href: "/shop?price=under-40" },
+    ],
+  },
+  {
+    label: "Бижута",
+    href: "/shop?category=Бижута",
+    italic: true,
+    children: [
+      { label: "Всички бижута", href: "/shop?category=Бижута" },
+      { label: "Перли", href: "/shop?category=Бижута&material=Перла" },
+      { label: "Златно покритие", href: "/shop?category=Бижута&material=Златно+покритие" },
+      { label: "Ограничена серия", href: "/shop?category=Бижута&feature=Ограничена+серия" },
+    ],
+  },
+  {
+    label: "Текстил",
+    href: "/shop?category=Текстил",
+    children: [
+      { label: "Всички текстили", href: "/shop?category=Текстил" },
+      { label: "Лен", href: "/shop?category=Текстил&material=Лен" },
+      { label: "Памук", href: "/shop?category=Текстил&material=Памук" },
+      { label: "Малка серия", href: "/shop?category=Текстил&feature=Малка+серия" },
+    ],
+  },
+  {
+    label: "Керамика",
+    href: "/shop?category=Керамика",
+    italic: true,
+    children: [
+      { label: "Всички керамики", href: "/shop?category=Керамика" },
+      { label: "Каменина", href: "/shop?category=Керамика&material=Каменина" },
+      { label: "Единствена бройка", href: "/shop?category=Керамика&feature=Единствена+бройка" },
+      { label: "Над 60 €", href: "/shop?category=Керамика&price=over-60" },
+    ],
+  },
+  {
+    label: "Магазин",
+    href: "/shop",
+    children: [
+      { label: "Всички изделия", href: "/shop" },
+      { label: "Аромати за дома", href: "/shop?category=Аромати+за+дома" },
+      { label: "Грижа за себе си", href: "/shop?category=Грижа+за+себе+си" },
+      { label: "В наличност", href: "/shop?availability=in-stock" },
+    ],
+  },
+  {
+    label: "Студиото",
+    href: "/#story",
+    italic: true,
+    children: [
+      { label: "За нас", href: "/#story" },
+      { label: "Дневник", href: "/#journal" },
+      { label: "Въпроси", href: "/#faq" },
+      { label: "Пиши ни", href: "mailto:hello@lumahandmade.example" },
+    ],
+  },
 ];
+
+export const collectionLinks = navMenuItems.slice(0, 4).map(({ label, href, italic }) => ({
+  label,
+  href,
+  italic: Boolean(italic),
+}));
 
 export const values = [
   {
