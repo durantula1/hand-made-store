@@ -1,9 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProductDetail } from "@/components/product-detail";
 import { ProductGrid } from "@/components/product-grid";
-import { ShopShell } from "@/components/shop-shell";
 import { getProduct, getRelatedProducts, products } from "@/lib/products";
 
 type ProductPageProps = {
@@ -11,6 +9,9 @@ type ProductPageProps = {
     slug: string;
   }>;
 };
+
+// Every product is prerendered at build time; unknown slugs return 404 without a server render.
+export const dynamicParams = false;
 
 export function generateStaticParams() {
   return products.map((product) => ({ slug: product.slug }));
@@ -22,12 +23,12 @@ export async function generateMetadata({ params }: ProductPageProps) {
 
   if (!product) {
     return {
-      title: "Изделието не е намерено | Luma Handmade",
+      title: "Изделието не е намерено | Luméa Handmade",
     };
   }
 
   return {
-    title: `${product.name} | Luma Handmade`,
+    title: `${product.name} | Luméa Handmade`,
     description: product.description,
   };
 }
@@ -43,38 +44,26 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const related = getRelatedProducts(slug);
 
   return (
-    <ShopShell>
-      <main className="detail-page" id="main">
-        <nav className="breadcrumbs" aria-label="Път">
-          <Link href="/">Начало</Link>
-          <span aria-hidden="true">→</span>
-          <Link href="/shop">Магазин</Link>
-          <span aria-hidden="true">→</span>
-          <Link href={`/shop?category=${encodeURIComponent(product.category)}`}>{product.category}</Link>
-          <span aria-hidden="true">→</span>
-          <span>{product.name}</span>
-        </nav>
+    <main className="detail-page" id="main">
+      <nav className="breadcrumbs" aria-label="Път">
+        <Link href="/">Начало</Link>
+        <span aria-hidden="true">/</span>
+        <Link href="/shop">Бижута</Link>
+        <span aria-hidden="true">/</span>
+        <Link href={`/shop?category=${encodeURIComponent(product.category)}`}>{product.category}</Link>
+        <span aria-hidden="true">/</span>
+        <span>{product.name}</span>
+      </nav>
 
-        <ProductDetail product={product} />
+      <ProductDetail product={product} />
 
-        <section className="pdp-banner">
-          <Image src="/lifestyle/pdp-banner.png" alt="" fill sizes="100vw" className="object-cover" />
-          <div className="pdp-banner-copy">
-            <h2>Невидимите рискове на красотата</h2>
-            <p>
-              Новата колекция събира съвременен силует, етични материали и тиха простота. Налична онлайн и в студиото.
-            </p>
-          </div>
-        </section>
-
-        <section className="section-pad px-0">
-          <div className="section-heading">
-            <p className="product-vendor">Може да харесаш</p>
-            <h2>Още от студиото</h2>
-          </div>
-          <ProductGrid products={related} />
-        </section>
-      </main>
-    </ShopShell>
+      <section className="section-pad px-0">
+        <div className="section-heading">
+          <p className="product-vendor">Допълни визията</p>
+          <h2>Може да харесаш още</h2>
+        </div>
+        <ProductGrid products={related} />
+      </section>
+    </main>
   );
 }

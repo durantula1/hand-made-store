@@ -1,18 +1,23 @@
-import { ShopCatalog } from "@/components/shop-catalog";
-import { ShopShell } from "@/components/shop-shell";
+import { Suspense } from "react";
+import { ShopCatalog, ShopCatalogView } from "@/components/shop-catalog";
 
 export const metadata = {
-  title: "Магазин | Luma Handmade",
+  title: "Бижута | Luméa Handmade",
   description:
-    "Разгледай бижута, керамика, аромати за дома, текстил и подаръци за грижа за себе си от Luma Handmade.",
+    "Ръчно изработени гривни за ръка и крак, гердани, обеци, пръстени и ключодържатели в злато или сребро от Luméa Handmade.",
 };
 
 export default function ShopPage() {
   return (
-    <ShopShell>
-      <main className="shop-page" id="main">
+    <main className="shop-page" id="main">
+      {/*
+        useSearchParams is only known in the browser, so the prerendered HTML shows the full catalog
+        instead of an empty placeholder. Client navigations resolve the params synchronously and never
+        see this fallback.
+      */}
+      <Suspense fallback={<ShopCatalogView search="" />}>
         <ShopCatalog />
-      </main>
-    </ShopShell>
+      </Suspense>
+    </main>
   );
 }

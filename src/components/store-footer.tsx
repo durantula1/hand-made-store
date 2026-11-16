@@ -13,9 +13,9 @@ export function StoreFooter() {
       <InstagramStrip />
       <div className="footer-grid">
         <div>
-          <h2>Luma</h2>
+          <h2>Luméa</h2>
           <p className="mt-3 max-w-sm text-[var(--muted)]">
-            Ръчно изработени предмети за бавни сутрини, смислени подаръци и тих дом.
+            Ръчно изработени бижута в злато и сребро. Нанизани, огънати и полирани в малкото ни студио в София.
           </p>
         </div>
         {footerColumns.map((column) => (
@@ -38,8 +38,8 @@ export function StoreFooter() {
         ))}
       </div>
       <div className="footer-bottom">
-        <p>© {new Date().getFullYear()} Luma Handmade</p>
-        <p>Прототип, не истинска каса.</p>
+        <p>© {new Date().getFullYear()} Luméa Handmade</p>
+        <p>Visa · Mastercard · Apple Pay · Google Pay · Наложен платеж</p>
       </div>
     </footer>
   );
@@ -49,7 +49,7 @@ function NewsletterBand() {
   return (
     <section className="newsletter-band" aria-labelledby="newsletter-title">
       <h2 id="newsletter-title">
-        Абонирай се и вземи <em>20%</em> при първа поръчка
+        Абонирай се и вземи <em>10%</em> за първата си поръчка
       </h2>
       <form className="newsletter newsletter-wide" onSubmit={(event) => event.preventDefault()}>
         <label htmlFor="newsletter-email">Имейл адрес</label>
@@ -128,7 +128,7 @@ function InstagramStrip() {
           <div className="instagram-account">
             <span className="instagram-avatar">
               <Image
-                src="/lifestyle/collection-inset-necklace.png"
+                src="/jewelry/necklace-gold-drop.jpg"
                 alt=""
                 width={65}
                 height={65}
@@ -136,7 +136,7 @@ function InstagramStrip() {
               />
             </span>
             <div>
-              <strong>@luma_studio</strong>
+              <strong>@lumea_studio</strong>
               <span>14k последователи</span>
             </div>
           </div>

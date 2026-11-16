@@ -28,8 +28,8 @@ export function CountdownBand() {
       <div className="countdown-copy">
         <h2>{countdownCopy.title}</h2>
         <p>{countdownCopy.text}</p>
-        <Link className="ghost-button" href="/shop">
-          Към магазина
+        <Link className="ghost-button" href="/shop?category=Гривни+за+ръка">
+          Виж гривните
           <StoreIcon name="arrow" size={16} />
         </Link>
       </div>

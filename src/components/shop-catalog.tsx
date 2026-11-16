@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { CatalogFacet } from "@/components/catalog-facet";
 import { CatalogFilterOptions } from "@/components/catalog-filter-options";
 import { MobileFilterDrawer } from "@/components/mobile-filter-drawer";
@@ -19,41 +21,55 @@ import {
   readFiltersFromUrl,
   removeActiveFilter,
 } from "@/lib/catalog-filters";
-import { categories, products } from "@/lib/products";
+import { categoryList, getCategoryByName, products } from "@/lib/products";
+import { useCart } from "@/components/cart-provider";
 
-const desktopFacets: CatalogFacetType[] = ["availability", "price", "sort"];
+const desktopFacets: CatalogFacetType[] = ["material", "price", "availability", "sort"];
 
+/** Reads the URL on the client. On client navigations this resolves synchronously, so there is no loading state. */
 export function ShopCatalog() {
-  const [filters, setFilters] = useState<CatalogFilters>(createEmptyFilters);
-  const isUrlReady = useRef(false);
+  const searchParams = useSearchParams();
+  return <ShopCatalogView search={searchParams.toString()} />;
+}
+
+/**
+ * The catalog itself. `search` is the query string; filters are derived from it on the first render,
+ * so a link like /shop?category=Гривни paints the filtered grid immediately instead of flashing all products.
+ */
+export function ShopCatalogView({ search }: { search: string }) {
+  const [filters, setFilters] = useState<CatalogFilters>(() => readFiltersFromUrl(new URLSearchParams(search)));
+  const [savedOnly, setSavedOnly] = useState(() => new URLSearchParams(search).get("saved") === "1");
+  const [syncedSearch, setSyncedSearch] = useState(search);
+  const { wishlist } = useCart();
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
   const [draftFilters, setDraftFilters] = useState<CatalogFilters>(createEmptyFilters);
   const options = useMemo(() => getCatalogFacetOptions(products), []);
-  const filteredProducts = useMemo(() => filterProducts(products, filters), [filters]);
+  const filteredProducts = useMemo(() => {
+    const result = filterProducts(products, filters);
+    return savedOnly ? result.filter((product) => wishlist.includes(product.slug)) : result;
+  }, [filters, savedOnly, wishlist]);
   const draftResultCount = useMemo(() => filterProducts(products, draftFilters).length, [draftFilters]);
   const activeFilters = useMemo(() => getActiveFilters(filters), [filters]);
   const activeFilterCount = getActiveFilterCount(filters);
   const selectedCategory = filters.categories.length === 1 ? filters.categories[0] : null;
+  const category = selectedCategory ? getCategoryByName(selectedCategory) : undefined;
+
+  // A link to another /shop?… URL while already on /shop (e.g. a header category link) updates the
+  // filters during render, without an extra effect pass.
+  if (search !== syncedSearch) {
+    const params = new URLSearchParams(search);
+    setSyncedSearch(search);
+    setSavedOnly(params.get("saved") === "1");
+    setFilters(readFiltersFromUrl(params));
+  }
 
   useEffect(() => {
-    const syncFromUrl = () => {
-      isUrlReady.current = true;
-      setFilters(readFiltersFromUrl(new URLSearchParams(window.location.search)));
-    };
-
-    queueMicrotask(syncFromUrl);
-    window.addEventListener("popstate", syncFromUrl);
-    return () => window.removeEventListener("popstate", syncFromUrl);
-  }, []);
-
-  useEffect(() => {
-    if (!isUrlReady.current) return;
-
-    const nextUrl = createCatalogUrl(filters);
+    const base = createCatalogUrl(filters);
+    const nextUrl = savedOnly ? `${base}${base.includes("?") ? "&" : "?"}saved=1` : base;
     if (`${window.location.pathname}${window.location.search}` !== nextUrl) {
       window.history.replaceState(null, "", nextUrl);
     }
-  }, [filters]);
+  }, [filters, savedOnly]);
 
   const openMobileFilters = () => {
     setDraftFilters(filters);
@@ -70,7 +86,10 @@ export function ShopCatalog() {
     setIsMobileDrawerOpen(false);
   };
 
-  const resetFilters = () => setFilters(createEmptyFilters());
+  const resetFilters = () => {
+    setSavedOnly(false);
+    setFilters(createEmptyFilters());
+  };
 
   const selectCategory = (category: string | null) => {
     setFilters((current) => ({
@@ -81,62 +100,64 @@ export function ShopCatalog() {
 
   return (
     <section className="shop-catalog" aria-label="Каталог на магазина">
-      <div className="collection-intro">
-        <h1>
-          {selectedCategory ?? "Ръчна"}
-          <em>колекция</em>
-        </h1>
-        <p>
-          Новата ни колекция събира съвременни силуети, етично подбрани материали и тиха красота. Налична онлайн и
-          в студиото.
-        </p>
-      </div>
+      <nav className="breadcrumbs" aria-label="Път">
+        <Link href="/">Начало</Link>
+        <span aria-hidden="true">/</span>
+        {category ? <Link href="/shop">Бижута</Link> : <span>Бижута</span>}
+        {category ? (
+          <>
+            <span aria-hidden="true">/</span>
+            <span>{category.name}</span>
+          </>
+        ) : null}
+      </nav>
 
-      <div className="collection-banner">
+      <div className="collection-hero">
+        <div className="collection-intro">
+          <h1>{savedOnly ? "Любими" : category?.name ?? "Всички бижута"}</h1>
+          <p>
+            {savedOnly
+              ? "Бижутата, които си запазила със сърчице."
+              : category?.description ??
+                "Гривни, гердани, обеци, пръстени и ключодържатели, изработени на ръка в злато или сребро."}
+          </p>
+        </div>
         <div className="collection-banner-main">
           <Image
-            src="/lifestyle/collection-banner.png"
-            alt="Портрет от колекцията на Luma"
+            src={category?.image ?? "/jewelry/flatlay-flowers.jpg"}
+            alt=""
             fill
-            priority
-            sizes="100vw"
+            loading="eager"
+            fetchPriority="high"
+            sizes="(max-width: 900px) 100vw, 45vw"
             className="object-cover"
           />
         </div>
-        <div className="collection-insets">
-          <span>
-            <Image src="/lifestyle/collection-inset-portrait.png" alt="" fill sizes="140px" className="object-cover" />
-          </span>
-          <span>
-            <Image src="/lifestyle/collection-inset-necklace.png" alt="" fill sizes="140px" className="object-cover" />
-          </span>
-        </div>
       </div>
 
-      <div className="category-tabs" role="tablist" aria-label="Категории">
-        <button className={selectedCategory ? "" : "is-active"} onClick={() => selectCategory(null)} type="button">
+      <div className="category-pills" aria-label="Категории">
+        <button className={selectedCategory || savedOnly ? "" : "is-active"} onClick={() => { setSavedOnly(false); selectCategory(null); }} type="button">
           Всички
         </button>
-        {categories.map((category) => (
-          <span key={category} className="contents">
-            <span className="fleuron" aria-hidden="true">
-              ✦
+        {categoryList.map((item) => (
+          <button
+            className={selectedCategory === item.name ? "is-active" : ""}
+            key={item.slug}
+            onClick={() => { setSavedOnly(false); selectCategory(item.name); }}
+            type="button"
+          >
+            <span className="category-pill-image">
+              <Image src={item.image} alt="" fill sizes="32px" className="object-cover" />
             </span>
-            <button
-              className={selectedCategory === category ? "is-active" : ""}
-              onClick={() => selectCategory(category)}
-              type="button"
-            >
-              {category}
-            </button>
-          </span>
+            {item.name}
+          </button>
         ))}
       </div>
 
       <div className="catalog-controls">
         <div className="filter-bar" aria-label="Филтри за каталога">
           <div className="catalog-count" aria-live="polite">
-            {filteredProducts.length} изделия
+            {filteredProducts.length} {filteredProducts.length === 1 ? "бижу" : "бижута"}
           </div>
           {desktopFacets.map((facet) => (
             <CatalogFacet
@@ -144,11 +165,22 @@ export function ShopCatalog() {
               isActive={
                 facet === "sort"
                   ? filters.sort !== "featured"
-                  : facet === "price"
+                  : facet === "material"
+                    ? filters.materials.length > 0
+                    : facet === "price"
                     ? filters.price !== "all"
                     : filters.availability !== "all"
               }
-              label={facet === "sort" ? getSortLabel(filters.sort) : facet === "price" ? "Цена" : "Наличност"}
+              selectedCount={facet === "material" ? filters.materials.length : 0}
+              label={
+                facet === "sort"
+                  ? getSortLabel(filters.sort)
+                  : facet === "price"
+                    ? "Цена"
+                    : facet === "material"
+                      ? "Материал"
+                      : "Наличност"
+              }
               selectedLabel={facet === "sort" ? getSortLabel(filters.sort) : undefined}
             >
               <CatalogFilterOptions facet={facet} filters={filters} onChange={setFilters} options={options} />
@@ -194,10 +226,10 @@ export function ShopCatalog() {
           <ProductGrid products={filteredProducts} />
         ) : (
           <div className="empty-catalog">
-            <h2>Няма съвпадения.</h2>
-            <p>Изчисти филтрите, за да се върнеш към цялата колекция.</p>
+            <h2>{savedOnly ? "Още нямаш любими." : "Няма съвпадения."}</h2>
+            <p>{savedOnly ? "Натисни сърчицето на бижу, за да го запазиш тук." : "Изчисти филтрите, за да се върнеш към всички бижута."}</p>
             <button className="primary-button mt-6" onClick={resetFilters} type="button">
-              Изчисти филтрите
+              Към всички бижута
             </button>
           </div>
         )}

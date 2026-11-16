@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Italianno, Source_Sans_3 } from "next/font/google";
+import { ShopShell } from "@/components/shop-shell";
 import "./globals.css";
 
 const display = Cormorant_Garamond({
@@ -25,9 +26,9 @@ const script = Italianno({
 });
 
 export const metadata: Metadata = {
-  title: "Luma Handmade | Ръчно изработени находки",
+  title: "Luméa Handmade | Ръчно изработени бижута",
   description:
-    "Мек минималистичен магазин за ръчно изработени бижута, керамика и малки предмети за дома.",
+    "Ръчно изработени гривни, гердани, обеци, пръстени и ключодържатели в злато или сребро.",
 };
 
 export default function RootLayout({
@@ -42,7 +43,10 @@ export default function RootLayout({
       className={`${display.variable} ${sans.variable} ${script.variable} antialiased`}
       suppressHydrationWarning
     >
-      <body>{children}</body>
+      <body>
+        {/* The shell lives in the root layout so header, cart and footer persist across navigations. */}
+        <ShopShell>{children}</ShopShell>
+      </body>
     </html>
   );
 }

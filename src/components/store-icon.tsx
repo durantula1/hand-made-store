@@ -5,6 +5,13 @@ type StoreIconName =
   | "close"
   | "filter"
   | "gift"
+  | "hand"
+  | "heart"
+  | "return"
+  | "ruler"
+  | "shield"
+  | "truck"
+  | "chevron"
   | "instagram"
   | "mail"
   | "menu"
@@ -116,6 +123,53 @@ export function StoreIcon({ name, size = 22 }: StoreIconProps) {
         <svg {...common}>
           <circle cx="12" cy="12" r="8.75" stroke="currentColor" strokeWidth="1.4" />
           <path d="M10.2 19.25c.8-1.85 1.24-3.07 1.55-4.43M10.05 13.55c-.62-1.4-.36-4.23 2.5-4.23 1.94 0 2.77 1.4 2.77 3.03 0 2.3-.98 4.02-2.43 4.02-.8 0-1.4-.65-1.2-1.48l.47-1.93" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.4" />
+        </svg>
+      );
+    case "heart":
+      return (
+        <svg {...common}>
+          <path d="M12 19.3s-7.2-4.3-7.2-9.4A3.9 3.9 0 0 1 12 7.6a3.9 3.9 0 0 1 7.2 2.3c0 5.1-7.2 9.4-7.2 9.4Z" stroke="currentColor" strokeLinejoin="round" strokeWidth="1.4" />
+        </svg>
+      );
+    case "truck":
+      return (
+        <svg {...common}>
+          <path d="M3.5 7h10.3v9.3H3.5zM13.8 10.2h3.6l3.1 3.2v2.9h-6.7" stroke="currentColor" strokeLinejoin="round" strokeWidth="1.4" />
+          <circle cx="7.3" cy="17.4" r="1.6" stroke="currentColor" strokeWidth="1.4" fill="var(--ivory, #fff)" />
+          <circle cx="17" cy="17.4" r="1.6" stroke="currentColor" strokeWidth="1.4" fill="var(--ivory, #fff)" />
+        </svg>
+      );
+    case "return":
+      return (
+        <svg {...common}>
+          <path d="M8.5 6.5 5 10l3.5 3.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.4" />
+          <path d="M5.5 10h8.8a4.7 4.7 0 0 1 0 9.4H9" stroke="currentColor" strokeLinecap="round" strokeWidth="1.4" />
+        </svg>
+      );
+    case "shield":
+      return (
+        <svg {...common}>
+          <path d="M12 3.8 5.5 6.3v5.2c0 4.1 2.8 7.2 6.5 8.7 3.7-1.5 6.5-4.6 6.5-8.7V6.3L12 3.8Z" stroke="currentColor" strokeLinejoin="round" strokeWidth="1.4" />
+          <path d="m9.2 12 2 2 3.7-3.9" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.4" />
+        </svg>
+      );
+    case "hand":
+      return (
+        <svg {...common}>
+          <path d="M8.2 12.2V6.4a1.3 1.3 0 0 1 2.6 0v5M10.8 11V5.2a1.3 1.3 0 0 1 2.6 0V11M13.4 11V6.3a1.3 1.3 0 0 1 2.6 0v6.2M16 10.2a1.3 1.3 0 0 1 2.6 0v3.6c0 3.6-2.6 6.4-6.2 6.4-2.4 0-3.9-1.1-5.1-3l-2.1-3.4a1.3 1.3 0 0 1 2.1-1.5l.9 1.2" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.4" />
+        </svg>
+      );
+    case "ruler":
+      return (
+        <svg {...common}>
+          <path d="m3.8 15.6 11.8-11.8 4.6 4.6L8.4 20.2z" stroke="currentColor" strokeLinejoin="round" strokeWidth="1.4" />
+          <path d="m7.6 11.8 1.8 1.8M10.4 9l1.2 1.2M13.2 6.2l1.8 1.8" stroke="currentColor" strokeLinecap="round" strokeWidth="1.4" />
+        </svg>
+      );
+    case "chevron":
+      return (
+        <svg {...common}>
+          <path d="m9 6 6 6-6 6" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.4" />
         </svg>
       );
     case "mail":

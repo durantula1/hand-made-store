@@ -23,7 +23,7 @@ export function TrendsSlideshow() {
           fill
           sizes="100vw"
           className="object-cover"
-          priority={index === 0}
+          preload={index === 0}
         />
         <div className="trends-overlay" />
         <div className="trends-copy">

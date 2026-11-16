@@ -1,17 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { Product } from "@/lib/products";
+import type { Metal, Product } from "@/lib/products";
 import { useCart } from "./cart-provider";
 import { StoreIcon } from "./store-icon";
 
 export function AddToCartButton({
   product,
+  metal,
+  size,
   className = "",
   quantity = 1,
-  label = "Купи сега",
+  label = "Добави в кошницата",
 }: {
   product: Product;
+  metal: Metal;
+  size: string;
   className?: string;
   quantity?: number;
   label?: string;
@@ -29,13 +33,13 @@ export function AddToCartButton({
     <button
       className={`primary-button ${added ? "primary-button-added" : ""} ${className}`}
       onClick={() => {
-        addItem(product, quantity);
+        addItem(product, { metal, size, quantity });
         setAdded(true);
       }}
       type="button"
     >
-      {added ? "Добавено" : label}
-      <StoreIcon name="arrow" size={16} />
+      {added ? "Добавено ✓" : label}
+      {added ? null : <StoreIcon name="bag" size={16} />}
     </button>
   );
 }

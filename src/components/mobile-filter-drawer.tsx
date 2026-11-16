@@ -10,7 +10,7 @@ import {
   getActiveFilterCount,
 } from "@/lib/catalog-filters";
 
-const facets: CatalogFacet[] = ["sort", "availability", "category", "price", "material", "color", "feature"];
+const facets: CatalogFacet[] = ["sort", "category", "material", "price", "availability", "feature"];
 
 export function MobileFilterDrawer({
   open,
@@ -83,7 +83,7 @@ export function MobileFilterDrawer({
             Изчисти всички
           </button>
           <button className="primary-button mobile-show-results" onClick={onApply} type="button">
-            Покажи {resultCount} {resultCount === 1 ? "изделие" : "изделия"}
+            Покажи {resultCount} {resultCount === 1 ? "бижу" : "бижута"}
           </button>
         </footer>
       </div>

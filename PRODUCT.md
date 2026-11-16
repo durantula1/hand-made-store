@@ -1,6 +1,6 @@
-# Luma Handmade
+# Luméa Handmade
 
-Luma Handmade is a proof-of-concept storefront for people shopping for refined handmade gifts, small home objects, and personal accessories. The first audience is design-conscious shoppers who want something warmer than mass retail but more polished than a casual craft marketplace.
+Luméa Handmade is a proof-of-concept storefront for people shopping for refined handmade gifts, small home objects, and personal accessories. The first audience is design-conscious shoppers who want something warmer than mass retail but more polished than a casual craft marketplace.
 
 Register: brand.
 

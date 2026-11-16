@@ -1,6 +1,6 @@
 import type { Product } from "@/lib/products";
 
-export type PriceFilter = "all" | "under-40" | "40-60" | "over-60";
+export type PriceFilter = "all" | "under-30" | "30-50" | "over-50";
 export type SortFilter = "featured" | "price-asc" | "price-desc" | "name";
 export type AvailabilityFilter = "all" | "in-stock" | "out-of-stock";
 
@@ -26,13 +26,13 @@ export type CatalogFacetOptions = {
 
 export const priceOptions: { label: string; value: PriceFilter }[] = [
   { label: "Всяка цена", value: "all" },
-  { label: "Под 40 €", value: "under-40" },
-  { label: "От 40 € до 60 €", value: "40-60" },
-  { label: "Над 60 €", value: "over-60" },
+  { label: "До 30 €", value: "under-30" },
+  { label: "От 30 € до 50 €", value: "30-50" },
+  { label: "Над 50 €", value: "over-50" },
 ];
 
 export const sortOptions: { label: string; value: SortFilter }[] = [
-  { label: "Подбрани", value: "featured" },
+  { label: "Препоръчани", value: "featured" },
   { label: "Цена: ниска към висока", value: "price-asc" },
   { label: "Цена: висока към ниска", value: "price-desc" },
   { label: "Име: А–Я", value: "name" },
@@ -49,7 +49,7 @@ export const facetLabels: Record<CatalogFacet, string> = {
   price: "Цена",
   availability: "Наличност",
   material: "Материал",
-  color: "Цвят",
+  color: "Метал",
   feature: "Детайли",
   sort: "Подреди",
 };
@@ -71,7 +71,7 @@ export function getCatalogFacetOptions(products: Product[]): CatalogFacetOptions
   return {
     categories: unique(products.map((product) => product.category)),
     materials: unique(products.flatMap((product) => product.materials)),
-    colors: unique(products.flatMap((product) => product.colors)),
+    colors: [],
     features: unique(products.flatMap((product) => product.features)),
   };
 }
@@ -88,7 +88,6 @@ export function filterProducts(products: Product[], filters: CatalogFilters) {
           product.category,
           product.description,
           ...product.materials,
-          ...product.colors,
           ...product.features,
         ]
           .join(" ")
@@ -101,7 +100,6 @@ export function filterProducts(products: Product[], filters: CatalogFilters) {
         matchesPrice(filters.price, product.price) &&
         matchesAvailability(filters.availability, product.inStock !== false) &&
         matchesAny(filters.materials, product.materials) &&
-        matchesAny(filters.colors, product.colors) &&
         matchesAny(filters.features, product.features)
       );
     })
@@ -196,7 +194,7 @@ export function createCatalogUrl(filters: CatalogFilters) {
 }
 
 export function getSortLabel(sort: SortFilter) {
-  return sortOptions.find((option) => option.value === sort)?.label ?? "Подбрани";
+  return sortOptions.find((option) => option.value === sort)?.label ?? "Препоръчани";
 }
 
 function matchesAny(selected: string[], productValues: string[]) {
@@ -210,9 +208,9 @@ function matchesAvailability(filter: AvailabilityFilter, inStock: boolean) {
 }
 
 function matchesPrice(filter: PriceFilter, price: number) {
-  if (filter === "under-40") return price < 40;
-  if (filter === "40-60") return price >= 40 && price <= 60;
-  if (filter === "over-60") return price > 60;
+  if (filter === "under-30") return price <= 30;
+  if (filter === "30-50") return price > 30 && price <= 50;
+  if (filter === "over-50") return price > 50;
   return true;
 }
 
