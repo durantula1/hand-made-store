@@ -34,8 +34,8 @@ type CartContextValue = {
 };
 
 const CartContext = createContext<CartContextValue | null>(null);
-const CART_KEY = "lumea-cart-v2";
-const WISHLIST_KEY = "lumea-wishlist-v1";
+const CART_KEY = "lunea-cart-v2";
+const WISHLIST_KEY = "lunea-wishlist-v1";
 
 type StoredLine = Pick<CartLine, "metal" | "size" | "quantity"> & { slug: string };
 

@@ -93,7 +93,7 @@ export const faqs = [
 ];
 
 export const countdownCopy = {
-  title: "Черен петък в Luméa",
+  title: "Черен петък в Lunea",
   text: "На 27 ноември всички гривни за ръка и крак са с −20%. Абонирай се, за да пазаруваш час по-рано.",
 };
 
@@ -174,7 +174,7 @@ export const footerColumns = [
     links: [
       { label: "За нас", href: "/#story" },
       { label: "Дневник", href: "/#journal" },
-      { label: "Пиши ни", href: "mailto:hello@lumeahandmade.example" },
+      { label: "Пиши ни", href: "mailto:hello@luneahandmade.example" },
     ],
   },
 ];
@@ -185,7 +185,7 @@ export const returnPolicy =
   "Можеш да върнеш или замениш бижу до 30 дни след получаване, в оригинален вид и опаковка. Замяната на размер е безплатна. Обеците не подлежат на връщане по хигиенни причини, освен при дефект.";
 
 export const customerService =
-  "Всяко бижу има 1 година гаранция. Ако се скъса закопчалка или падне мънисто, го поправяме безплатно. Пиши ни на hello@lumeahandmade.example.";
+  "Всяко бижу има 1 година гаранция. Ако се скъса закопчалка или падне мънисто, го поправяме безплатно. Пиши ни на hello@luneahandmade.example.";
 
 export const shippingInfo =
   "Изработваме и опаковаме до 1–2 работни дни. Доставка до офис или адрес на Еконт и Спиди за 1–3 дни, с възможност за преглед. Над 80 € е безплатна.";

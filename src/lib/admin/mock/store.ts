@@ -20,7 +20,7 @@ export type MockStore = {
   counters: { id: number; movement: number; order: number };
 };
 
-const globalKey = "__lumeaAdminMockStore" as const;
+const globalKey = "__luneaAdminMockStore" as const;
 type GlobalWithStore = typeof globalThis & { [globalKey]?: MockStore };
 
 /** Данните живеят върху globalThis, за да оцеляват при HMR в dev. Нулират се при рестарт на сървъра. */

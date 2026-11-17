@@ -2,9 +2,9 @@ import { Suspense } from "react";
 import { ShopCatalog, ShopCatalogView } from "@/components/shop-catalog";
 
 export const metadata = {
-  title: "Бижута | Luméa Handmade",
+  title: "Бижута | Lunea Handmade",
   description:
-    "Ръчно изработени гривни за ръка и крак, гердани, обеци, пръстени и ключодържатели в злато или сребро от Luméa Handmade.",
+    "Ръчно изработени гривни за ръка и крак, гердани, обеци, пръстени и ключодържатели в злато или сребро от Lunea Handmade.",
 };
 
 export default function ShopPage() {

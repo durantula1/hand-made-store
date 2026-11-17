@@ -53,7 +53,7 @@ export async function GET(request: NextRequest) {
   return new Response(csv, {
     headers: {
       "Content-Type": "text/csv; charset=utf-8",
-      "Content-Disposition": 'attachment; filename="lumea-orders.csv"',
+      "Content-Disposition": 'attachment; filename="lunea-orders.csv"',
       "Cache-Control": "no-store",
     },
   });
