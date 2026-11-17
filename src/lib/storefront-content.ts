@@ -93,7 +93,7 @@ export const faqs = [
 ];
 
 export const countdownCopy = {
-  title: "Черен петък в Lunea",
+  title: "Черен петък в Lunéa",
   text: "На 27 ноември всички гривни за ръка и крак са с −20%. Абонирай се, за да пазаруваш час по-рано.",
 };
 

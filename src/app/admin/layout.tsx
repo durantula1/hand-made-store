@@ -9,7 +9,7 @@ import { requireAdmin } from "@/lib/admin/dal";
 import "./admin.css";
 
 export const metadata: Metadata = {
-  title: { default: "Админ | Lunea", template: "%s | Админ Lunea" },
+  title: { default: "Админ | Lunéa", template: "%s | Админ Lunéa" },
   robots: { index: false, follow: false },
 };
 

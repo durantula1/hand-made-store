@@ -34,7 +34,7 @@ export function MobileMenuDialog({ isOpen, onClose, onOpenAccount, onOpenSearch 
       <div className="side-sheet-inner menu-dialog-inner">
         <div className="dialog-heading menu-stagger" style={{ "--i": 0 } as React.CSSProperties}>
           <Link className="menu-brand" href="/" onClick={onClose}>
-            Lunea
+            Lunéa
           </Link>
           <DialogCloseButton onClick={onClose} />
         </div>

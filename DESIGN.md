@@ -1,4 +1,4 @@
-# Lunea Handmade Design Direction
+# Lunéa Handmade Design Direction
 
 Color strategy: restrained. Tinted ivory neutrals with one earthy brown carrying announcement, primary actions, and wordmark. Color never becomes the subject; photography and type do.
 
@@ -14,7 +14,7 @@ Core colors:
 - Hairline: `oklch(0.42 0.02 55 / 0.16)`
 
 Typography:
-- Script wordmark for Lunea only (Italianno). Latin, never used for body copy.
+- Script wordmark for Lunéa only (Italianno). Latin, never used for body copy.
 - Cormorant Garamond for headlines, collection names, and accordion titles. Italic is a structural accent, not decoration.
 - Source Sans 3 for navigation, prices, buttons, and body. Cyrillic required.
 
@@ -27,7 +27,7 @@ Layout:
 
 Imagery:
 - Handmade jewelry only: bracelets, anklets, necklaces, earrings, rings, keychains. Warm daylight, linen, skin, gold and silver.
-- Current product photos are licensed Unsplash placeholders (see `IMAGE_CREDITS.md`); replace with Lunea's own shots per metal before launch.
+- Current product photos are licensed Unsplash placeholders (see `IMAGE_CREDITS.md`); replace with Lunéa's own shots per metal before launch.
 - Keep images cohesive enough to look from the same brand day.
 
 Motion:

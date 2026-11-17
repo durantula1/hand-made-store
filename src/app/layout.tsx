@@ -26,7 +26,7 @@ const script = Italianno({
 });
 
 export const metadata: Metadata = {
-  title: "Lunea Handmade | Ръчно изработени бижута",
+  title: "Lunéa Handmade | Ръчно изработени бижута",
   description:
     "Ръчно изработени гривни, гердани, обеци, пръстени и ключодържатели в злато или сребро.",
 };

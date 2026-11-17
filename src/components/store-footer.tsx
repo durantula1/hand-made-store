@@ -13,7 +13,7 @@ export function StoreFooter() {
       <InstagramStrip />
       <div className="footer-grid">
         <div>
-          <h2>Lunea</h2>
+          <h2>Lunéa</h2>
           <p className="mt-3 max-w-sm text-[var(--muted)]">
             Ръчно изработени бижута в злато и сребро. Нанизани, огънати и полирани в малкото ни студио в София.
           </p>
@@ -38,7 +38,7 @@ export function StoreFooter() {
         ))}
       </div>
       <div className="footer-bottom">
-        <p>© {new Date().getFullYear()} Lunea Handmade</p>
+        <p>© {new Date().getFullYear()} Lunéa Handmade</p>
         <p>Visa · Mastercard · Apple Pay · Google Pay · Наложен платеж</p>
       </div>
     </footer>

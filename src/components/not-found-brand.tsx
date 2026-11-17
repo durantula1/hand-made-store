@@ -9,7 +9,7 @@ export function NotFoundBrand() {
   if (pathname !== "/admin" && !pathname.startsWith("/admin/")) return null;
   return (
     <Link className="absolute left-6 top-6 font-serif text-3xl text-ink" href="/admin">
-      Lunea
+      Lunéa
     </Link>
   );
 }

@@ -30,8 +30,8 @@ export function SiteHeader() {
           </button>
         </div>
 
-        <Link className="brand-lockup" href="/" aria-label="Начална страница на Lunea Handmade">
-          Lunea
+        <Link className="brand-lockup" href="/" aria-label="Начална страница на Lunéa Handmade">
+          Lunéa
         </Link>
 
         <div className="header-cluster header-cluster-end">

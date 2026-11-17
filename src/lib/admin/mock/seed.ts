@@ -241,7 +241,7 @@ export function createSeed(): MockStore {
     const carrier = shippingMethod.startsWith("econt") ? "Еконт" : "Спиди";
     const line =
       shippingMethod === "pickup"
-        ? "Студио Lunea (вземане на място)"
+        ? "Студио Lunéa (вземане на място)"
         : isOffice
           ? `Офис на ${carrier} „${place.city} — Център“`
           : `${rnd.pick(streets)} ${rnd.int(1, 120)}, ет. ${rnd.int(1, 6)}`;

@@ -23,12 +23,12 @@ export async function generateMetadata({ params }: ProductPageProps) {
 
   if (!product) {
     return {
-      title: "Изделието не е намерено | Lunea Handmade",
+      title: "Изделието не е намерено | Lunéa Handmade",
     };
   }
 
   return {
-    title: `${product.name} | Lunea Handmade`,
+    title: `${product.name} | Lunéa Handmade`,
     description: product.description,
   };
 }

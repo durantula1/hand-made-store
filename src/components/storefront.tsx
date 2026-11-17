@@ -53,7 +53,7 @@ export function Storefront() {
         </Link>
       </div>
 
-      <section className="trust-strip" aria-label="Защо Lunea">
+      <section className="trust-strip" aria-label="Защо Lunéa">
         {trustPoints.map((point) => (
           <div className="trust-item" key={point.title}>
             <StoreIcon name={point.icon} size={22} />
@@ -141,7 +141,7 @@ export function Storefront() {
           <Image src="/jewelry/studio-workbench.jpg" alt="Изработване на бижу в студиото" fill sizes="(max-width: 980px) 100vw, 50vw" className="object-cover" />
         </div>
         <div className="about-copy">
-          <p className="product-vendor">Здравей, ние сме Lunea</p>
+          <p className="product-vendor">Здравей, ние сме Lunéa</p>
           <h2>Бижута, които се усещат лични</h2>
           <p>
             Започнахме с кутия мъниста на кухненската маса. Днес нанизваме, огъваме и полираме всяко бижу в малкото
