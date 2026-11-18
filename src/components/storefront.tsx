@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { articles, faqs, trustPoints, values } from "@/lib/storefront-content";
 import { categoryList, getCategoryHref, metalOptions, products } from "@/lib/products";
+import { LoopVideo } from "@/components/loop-video";
 import { CountdownBand } from "@/components/countdown-band";
 import { ProductGrid } from "@/components/product-grid";
 import { SizeTables } from "@/components/size-guide-dialog";
@@ -136,26 +137,27 @@ export function Storefront() {
         <CountdownBand />
       </div>
 
-      <section className="section-pad about-section" id="story">
-        <div className="about-image">
-          <Image src="/jewelry/studio-workbench.jpg" alt="Изработване на бижу в студиото" fill sizes="(max-width: 980px) 100vw, 50vw" className="object-cover" />
-        </div>
-        <div className="about-copy">
-          <p className="product-vendor">Здравей, ние сме Lunéa</p>
-          <h2>Бижута, които се усещат лични</h2>
+      <section className="atelier" id="story" aria-labelledby="atelier-title">
+        <div className="atelier-intro">
+          <h2 id="atelier-title">Бижута, които се усещат лични</h2>
           <p>
             Започнахме с кутия мъниста на кухненската маса. Днес нанизваме, огъваме и полираме всяко бижу в малкото
             си студио в София, на ръка и в малки серии.
           </p>
-          <div className="values-grid">
-            {values.map((value) => (
-              <article className="value-item" key={value.n}>
-                <b>{value.n}</b>
-                <h3>{value.title}</h3>
-                <p>{value.text}</p>
-              </article>
-            ))}
+        </div>
+        <figure className="atelier-figure">
+          <div className="atelier-media">
+            <LoopVideo sizes="100vw" control />
           </div>
+          <figcaption>Речни перли и корал върху лен, снимано в студиото ни в София.</figcaption>
+        </figure>
+        <div className="atelier-values">
+          {values.map((value) => (
+            <article className="atelier-value" key={value.n}>
+              <h3>{value.title}</h3>
+              <p>{value.text}</p>
+            </article>
+          ))}
         </div>
       </section>
 
