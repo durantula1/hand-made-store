@@ -1278,11 +1278,124 @@ input:not([data-slot]):focus-visible {
     width: auto;
   }
 
-  .ig-photo:nth-child(1) { left: 7%; top: 16%; }
-  .ig-photo:nth-child(2) { right: 16%; top: 20%; }
-  .ig-photo:nth-child(3) { left: 3%; top: 46%; }
-  .ig-photo:nth-child(4) { right: 4%; top: 52%; }
-  .ig-photo:nth-child(5) { left: 54%; bottom: -6%; }
+  .ig-photo,
+  .ig-photo[data-mobile="false"] {
+    display: block;
+    left: var(--dl, auto);
+    right: var(--dr, auto);
+    top: var(--dt, auto);
+    bottom: var(--db, auto);
+  }
+}
+
+@media (min-width: 700px) and (max-width: 1099px) {
+  .instagram-follow {
+    flex-direction: row;
+    width: auto;
+  }
+
+  .instagram-follow .ghost-button {
+    width: auto;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ig-photo {
+    will-change: transform;
+  }
+
+  .ig-face {
+    transition: rotate 0.5s cubic-bezier(0.22, 0.8, 0.28, 1), scale 0.5s cubic-bezier(0.22, 0.8, 0.28, 1),
+      opacity 0.4s ease, filter 0.4s ease;
+  }
+
+  .ig-face::before,
+  .ig-badge {
+    transition: opacity 0.4s ease;
+  }
+
+  /* Влизане: снимките се появяват една след друга. */
+  .ig-ready .ig-card {
+    opacity: 0;
+    scale: 0.86;
+    transition: opacity 0.8s ease calc(var(--i) * 110ms),
+      scale 0.9s cubic-bezier(0.22, 0.8, 0.28, 1) calc(var(--i) * 110ms);
+  }
+
+  .ig-in .ig-card {
+    opacity: 1;
+    scale: 1;
+  }
+
+  /* Бавно плаващо поклащане; върви само докато секцията е на екрана. */
+  .ig-float {
+    animation: ig-float var(--dur) ease-in-out var(--delay) infinite alternate;
+    animation-play-state: paused;
+  }
+
+  .ig-live .ig-float {
+    animation-play-state: running;
+  }
+
+  .ig-card:hover .ig-face {
+    rotate: 0deg;
+    scale: 1.07;
+    opacity: 1;
+    filter: none;
+  }
+
+  .ig-card:hover .ig-face::before,
+  .ig-card:hover .ig-badge {
+    opacity: 1;
+  }
+
+  .ig-photo:hover {
+    z-index: 4;
+  }
+}
+
+@keyframes ig-float {
+  from {
+    translate: 0 -5px;
+    rotate: -0.9deg;
+  }
+  to {
+    translate: 0 5px;
+    rotate: 0.9deg;
+  }
+}
+
+/* Паралакс + промяна на наклона при скрол; без поддръжка — статично. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .instagram-collage {
+      view-timeline: --ig block;
+    }
+
+    .ig-photo {
+      animation: ig-parallax linear both;
+      animation-timeline: --ig;
+    }
+  }
+}
+
+@keyframes ig-parallax {
+  from {
+    translate: 0 calc(var(--shift) * var(--pm));
+    rotate: 0deg;
+  }
+  to {
+    translate: 0 calc(var(--shift) * var(--pm) * -1);
+    rotate: var(--drift);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ig-card:hover .ig-face {
+    rotate: 0deg;
+    opacity: 1;
+    filter: none;
+  }
 }
 
 .values-grid {
